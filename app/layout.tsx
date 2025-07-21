@@ -2,9 +2,9 @@ import type { Metadata } from 'next'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'v0 App',
-  description: 'Created with v0',
-  generator: 'v0.dev',
+  title: 'Legacy Live | Extraordinary Entertainment',
+  description: 'Developed by DB Studios',
+  generator: 'DB Studios',
 }
 
 export default function RootLayout({
@@ -14,6 +14,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <link rel="icon" href="/Logo.png" type="image/png" />
+      </head>
       <body>{children}</body>
     </html>
   )
