@@ -1,5 +1,9 @@
 "use server"
 
+import { Resend } from "resend"
+
+const resend = new Resend(process.env.RESEND_API_KEY)
+
 export async function submitContactForm(formData: FormData) {
   try {
     // Extract form data
@@ -36,16 +40,40 @@ ${preferences || "None provided"}
 This inquiry was submitted through the Legacy Live Entertainment website.
     `
 
-    // In a real implementation, you would use a service like Resend, SendGrid, or Nodemailer
-    // For now, we'll simulate the email sending
-    console.log("Email would be sent to: jacinnagao@gmail.com")
-    console.log("Email content:", emailContent)
+    // Debug: Log API key presence
+    if (!process.env.RESEND_API_KEY) {
+      console.error("[Resend] RESEND_API_KEY is missing from environment variables.")
+      return {
+        success: false,
+        message: "Email service is not configured. Please contact us directly.",
+      }
+    } else {
+      console.log("[Resend] RESEND_API_KEY is present.")
+    }
 
-    // Simulate API delay
+    // Debug: Log before sending
+    console.log("[Resend] Attempting to send email to: jacinnagao@gmail.com, pablodellabella@gmail.com")
+    console.log("[Resend] Using from address: notifications@legacyliveevents.com")
+    let sendResult
+    try {
+      sendResult = await resend.emails.send({
+        from: "notifications@legacyliveevents.com", // Use a verified domain for best results
+        to: ["jacinnagao@gmail.com", "pablodellabella@gmail.com"],
+        subject: "New Contact Form Submission",
+        text: emailContent,
+      })
+      console.log("[Resend] Email send result:", sendResult)
+    } catch (sendError) {
+      console.error("[Resend] Error sending email:", sendError)
+      return {
+        success: false,
+        message: "There was an error sending your message. Please try again later or contact us directly.",
+      }
+    }
+
+    // Simulate API delay (optional, can be removed)
     await new Promise((resolve) => setTimeout(resolve, 1000))
 
-    // For demonstration, we'll always return success
-    // In production, you'd handle actual email sending and error cases
     return {
       success: true,
       message: "Thank you for your inquiry! We'll be in touch within 24 hours to discuss your event.",

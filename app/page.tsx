@@ -453,7 +453,7 @@ export default function LuxuryLiveEntertainment() {
       {/* Enhanced Formats Section */}
       <section
         id="formats"
-        className="relative py-24 px-6 bg-gradient-to-b from-charcoal-950 to-charcoal-900"
+        className="relative py-24 px-6 bg-gradient-to-b from-charcoal-900 to-charcoal-900"
         style={{
           backgroundImage: 'url(/5-background.webp)',
           backgroundSize: 'cover',
@@ -1209,9 +1209,12 @@ export default function LuxuryLiveEntertainment() {
                   </div>
                   <div>
                     <div className="text-stone-300 font-light text-sm uppercase tracking-wider mb-1">Email</div>
-                    <div className="text-2xl font-light text-stone-50 group-hover:text-gold-400 transition-colors duration-500">
+                    <a
+                      href="mailto:jacinnagao@gmail.com"
+                      className="text-2xl font-light text-stone-50 group-hover:text-gold-400 transition-colors duration-500"
+                    >
                       jacinnagao@gmail.com
-                    </div>
+                    </a>
                   </div>
                 </div>
               </div>
@@ -1461,7 +1464,7 @@ export default function LuxuryLiveEntertainment() {
                 </div>
                 <div className="flex items-center space-x-3">
                   <Mail className="w-5 h-5 text-gold-400" />
-                  <span className="text-stone-400 font-light">jacinnagao@gmail.com</span>
+                  <a href="mailto:jacinnagao@gmail.com" className="text-stone-400 font-light">jacinnagao@gmail.com</a>
                 </div>
               </div>
 
