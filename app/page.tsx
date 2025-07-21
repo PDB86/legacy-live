@@ -6,6 +6,7 @@ import { useState, useEffect, useRef } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog"
 import {
   Mail,
   Phone,
@@ -24,6 +25,7 @@ import {
   CheckCircle,
   Instagram,
   Facebook,
+  X as CloseIcon,
 } from "lucide-react"
 import Link from "next/link"
 import { submitContactForm } from "./actions/contact"
@@ -35,6 +37,8 @@ export default function LuxuryLiveEntertainment() {
   const [visibleReviews, setVisibleReviews] = useState<Set<number>>(new Set())
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitMessage, setSubmitMessage] = useState<{ type: "success" | "error"; text: string } | null>(null)
+  const [selectedImage, setSelectedImage] = useState<string | null>(null)
+  const [selectedImageIdx, setSelectedImageIdx] = useState<number | null>(null)
   const formatRefs = useRef<{ [key: string]: HTMLDivElement | null }>({})
   const reviewRefs = useRef<{ [key: number]: HTMLDivElement | null }>({})
   const heroRef = useRef<HTMLDivElement>(null)
@@ -42,6 +46,14 @@ export default function LuxuryLiveEntertainment() {
   const [particles, setParticles] = useState<
     { left: number; top: number; delay: number; duration: number }[]
   >([]);
+
+  const portfolioImages = [
+    { id: 1, alt: "Portfolio Highlight 1", src: "/PH1.webp" },
+    { id: 2, alt: "Portfolio Highlight 2", src: "/PH2.webp" },
+    { id: 3, alt: "Portfolio Highlight 3", src: "/PH3.webp" },
+    { id: 4, alt: "Portfolio Highlight 4", src: "/PH4.webp" },
+    { id: 5, alt: "Portfolio Highlight 5", src: "/PH5.webp" },
+  ];
 
   useEffect(() => {
     const handleScroll = () => {
@@ -115,6 +127,22 @@ export default function LuxuryLiveEntertainment() {
       }))
     );
   }, []);
+
+  // Keyboard navigation for modal
+  useEffect(() => {
+    if (selectedImageIdx === null) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "ArrowRight") {
+        setSelectedImageIdx((idx) => idx !== null ? (idx + 1) % portfolioImages.length : null)
+      } else if (e.key === "ArrowLeft") {
+        setSelectedImageIdx((idx) => idx !== null ? (idx - 1 + portfolioImages.length) % portfolioImages.length : null)
+      } else if (e.key === "Escape") {
+        setSelectedImageIdx(null)
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown)
+    return () => window.removeEventListener("keydown", handleKeyDown)
+  }, [selectedImageIdx, portfolioImages.length])
 
   const handleFormSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -669,6 +697,32 @@ export default function LuxuryLiveEntertainment() {
         </div>
       </section>
 
+      {/* CEO Bio Section */}
+      <section className="relative py-24 px-6 bg-gradient-to-b from-charcoal-900 to-charcoal-950 overflow-hidden">
+        <div className="container mx-auto max-w-7xl flex flex-col md:flex-row items-center gap-12 md:gap-20">
+          <div className="flex-shrink-0 w-full md:w-2/5 flex justify-center">
+            <div className="rounded-2xl overflow-hidden shadow-2xl border-4 border-gold-400/30 bg-charcoal-950/80">
+              <img
+                src="/jacin.jpg"
+                alt="Jacin Nagao, CEO & Bandleader"
+                className="w-full h-auto object-contain transition-transform duration-700 hover:scale-105"
+                style={{ boxShadow: '0 8px 32px rgba(217, 119, 6, 0.15)' }}
+              />
+            </div>
+          </div>
+          <div className="flex-1 text-center md:text-left animate-in fade-in slide-in-from-bottom duration-1000">
+            <div className="mb-6">
+              <span className="inline-block text-gold-400 font-serif text-lg uppercase tracking-widest mb-2">Bandleader • Multi-Instrumentalist • International Touring Artist</span>
+              <h2 className="text-4xl md:text-5xl lg:text-6xl font-serif mb-4 tracking-tight text-stone-50">Jacin Nagao</h2>
+              <div className="w-20 h-0.5 bg-gold-400 mb-8 mx-auto md:mx-0"></div>
+            </div>
+            <p className="text-lg md:text-xl font-light text-stone-300 leading-relaxed max-w-2xl mx-auto md:mx-0 whitespace-pre-line">
+              {`Jacin Nagao is the powerhouse behind Legacy Live—a world-class band built to deliver unforgettable performances at high-end weddings, corporate galas, and private events. As a multi-instrumentalist and veteran bandleader, Jacin brings decades of touring experience, unmatched versatility, and an instinct for packing dance floors.\n\nEqually skilled on guitar, saxophone, and vocals, Jacin has toured globally with artists like Ricky Martin, Enrique Iglesias, Flo Rida, Joss Stone, and Jon Secada. His deep musical training and showmanship turn every event into a top-tier production.\n\nWith a master's degree in music and a reputation for excellence, Jacin leads Legacy Live with precision and energy—handpicking every band member and fine-tuning every detail. The result is a high-energy, high-glamour show that spans from Celia Cruz to Dua Lipa, tailored to thrill any crowd.\n\nTrusted by luxury clients and event pros alike, Jacin delivers not just music—but an experience that feels effortless, elegant, and electric.`}
+            </p>
+          </div>
+        </div>
+      </section>
+
       {/* Enhanced Portfolio Section - Single Row Carousel */}
       <section className="relative py-24 px-6 bg-charcoal-900 overflow-hidden">
         <div className="container mx-auto max-w-7xl">
@@ -682,42 +736,20 @@ export default function LuxuryLiveEntertainment() {
           {/* Enhanced Single Carousel */}
           <div className="relative mb-12 overflow-hidden">
             <div className="flex animate-scroll-left hover:pause">
-              {[
-                { id: 1, alt: "Luxury Wedding Reception" },
-                { id: 2, alt: "Corporate Gala Atmosphere" },
-                { id: 3, alt: "DJ Performance Excellence" },
-                { id: 4, alt: "Live Band Sophistication" },
-                { id: 5, alt: "Dance Floor Elegance" },
-                { id: 6, alt: "Professional Lighting" },
-                { id: 7, alt: "Crowd Engagement" },
-                { id: 8, alt: "Premium Setup" },
-                { id: 9, alt: "Latin Ensemble Performance" },
-                { id: 10, alt: "Sophisticated Party Atmosphere" },
-                { id: 11, alt: "Premium Sound Equipment" },
-                { id: 12, alt: "Event Highlights" },
-              ].map((item, index) => (
+              {portfolioImages.map((item, idx) => (
                 <div
                   key={`carousel-${item.id}`}
-                  className="flex-shrink-0 w-[450px] h-[350px] mx-6 bg-charcoal-800/30 backdrop-blur-sm border-2 border-stone-700/30 overflow-hidden transition-all duration-700 transform hover:scale-110 hover:-translate-y-4 cursor-pointer group relative shadow-2xl hover:shadow-gold-500/20"
+                  onClick={() => setSelectedImageIdx(idx)}
+                  className="flex-shrink-0 w-[600px] h-[400px] md:w-[800px] md:h-[540px] mx-6 bg-charcoal-800/30 backdrop-blur-sm border-2 border-stone-700/30 overflow-hidden transition-all duration-700 transform hover:scale-110 hover:-translate-y-4 cursor-pointer group relative shadow-2xl hover:shadow-gold-500/20"
                   style={{
                     boxShadow: "0 20px 40px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.05)",
-                  }}
-                  onMouseEnter={(e: React.MouseEvent<HTMLDivElement>) => {
-                    const target = e.currentTarget as HTMLDivElement
-                    target.style.boxShadow = "0 30px 60px rgba(217, 119, 6, 0.3), 0 0 0 2px rgba(217, 119, 6, 0.4)"
-                    target.style.borderColor = "rgba(217, 119, 6, 0.6)"
-                  }}
-                  onMouseLeave={(e: React.MouseEvent<HTMLDivElement>) => {
-                    const target = e.currentTarget as HTMLDivElement
-                    target.style.boxShadow = "0 20px 40px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.05)"
-                    target.style.borderColor = "rgba(120, 113, 108, 0.3)"
                   }}
                 >
                   <div className="w-full h-full bg-gradient-to-br from-charcoal-800 to-charcoal-900 flex items-center justify-center relative overflow-hidden">
                     <img
-                      src={`/placeholder.svg?height=350&width=450&text=Event+${item.id}`}
+                      src={item.src}
                       alt={item.alt}
-                      className="w-full h-full object-cover transition-all duration-700 group-hover:scale-125 opacity-90 group-hover:opacity-100 brightness-90 group-hover:brightness-110 contrast-110 group-hover:contrast-125 saturate-110 group-hover:saturate-125"
+                      className="w-full h-full object-contain transition-all duration-700 group-hover:scale-105 opacity-90 group-hover:opacity-100"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-charcoal-950/90 via-charcoal-950/20 to-transparent opacity-60 group-hover:opacity-40 transition-opacity duration-700"></div>
                     <div className="absolute inset-0 bg-gradient-to-br from-gold-500/10 via-transparent to-gold-600/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
@@ -731,42 +763,20 @@ export default function LuxuryLiveEntertainment() {
                 </div>
               ))}
               {/* Duplicate for seamless loop */}
-              {[
-                { id: 1, alt: "Luxury Wedding Reception" },
-                { id: 2, alt: "Corporate Gala Atmosphere" },
-                { id: 3, alt: "DJ Performance Excellence" },
-                { id: 4, alt: "Live Band Sophistication" },
-                { id: 5, alt: "Dance Floor Elegance" },
-                { id: 6, alt: "Professional Lighting" },
-                { id: 7, alt: "Crowd Engagement" },
-                { id: 8, alt: "Premium Setup" },
-                { id: 9, alt: "Latin Ensemble Performance" },
-                { id: 10, alt: "Sophisticated Party Atmosphere" },
-                { id: 11, alt: "Premium Sound Equipment" },
-                { id: 12, alt: "Event Highlights" },
-              ].map((item, index) => (
+              {portfolioImages.map((item, idx) => (
                 <div
                   key={`carousel-dup-${item.id}`}
-                  className="flex-shrink-0 w-[450px] h-[350px] mx-6 bg-charcoal-800/30 backdrop-blur-sm border-2 border-stone-700/30 overflow-hidden transition-all duration-700 transform hover:scale-110 hover:-translate-y-4 cursor-pointer group relative shadow-2xl hover:shadow-gold-500/20"
+                  onClick={() => setSelectedImageIdx(idx)}
+                  className="flex-shrink-0 w-[600px] h-[400px] md:w-[800px] md:h-[540px] mx-6 bg-charcoal-800/30 backdrop-blur-sm border-2 border-stone-700/30 overflow-hidden transition-all duration-700 transform hover:scale-110 hover:-translate-y-4 cursor-pointer group relative shadow-2xl hover:shadow-gold-500/20"
                   style={{
                     boxShadow: "0 20px 40px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.05)",
-                  }}
-                  onMouseEnter={(e: React.MouseEvent<HTMLDivElement>) => {
-                    const target = e.currentTarget as HTMLDivElement
-                    target.style.boxShadow = "0 30px 60px rgba(217, 119, 6, 0.3), 0 0 0 2px rgba(217, 119, 6, 0.4)"
-                    target.style.borderColor = "rgba(217, 119, 6, 0.6)"
-                  }}
-                  onMouseLeave={(e: React.MouseEvent<HTMLDivElement>) => {
-                    const target = e.currentTarget as HTMLDivElement
-                    target.style.boxShadow = "0 20px 40px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.05)"
-                    target.style.borderColor = "rgba(120, 113, 108, 0.3)"
                   }}
                 >
                   <div className="w-full h-full bg-gradient-to-br from-charcoal-800 to-charcoal-900 flex items-center justify-center relative overflow-hidden">
                     <img
-                      src={`/placeholder.svg?height=350&width=450&text=Event+${item.id}`}
+                      src={item.src}
                       alt={item.alt}
-                      className="w-full h-full object-cover transition-all duration-700 group-hover:scale-125 opacity-90 group-hover:opacity-100 brightness-90 group-hover:brightness-110 contrast-110 group-hover:contrast-125 saturate-110 group-hover:saturate-125"
+                      className="w-full h-full object-contain transition-all duration-700 group-hover:scale-105 opacity-90 group-hover:opacity-100"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-charcoal-950/90 via-charcoal-950/20 to-transparent opacity-60 group-hover:opacity-40 transition-opacity duration-700"></div>
                     <div className="absolute inset-0 bg-gradient-to-br from-gold-500/10 via-transparent to-gold-600/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
@@ -787,10 +797,11 @@ export default function LuxuryLiveEntertainment() {
             <Button
               variant="outline"
               size="lg"
-              className="border-gold-500 text-gold-400 hover:bg-gold-500 hover:text-charcoal-950 font-medium px-8 py-4 text-lg transition-all duration-500 transform hover:scale-105 hover:shadow-2xl hover:shadow-gold-500/25 rounded-none tracking-wide uppercase bg-transparent group"
+              className="mx-auto px-10 bg-gradient-to-r from-gold-500 to-gold-600 hover:from-gold-400 hover:to-gold-500 text-charcoal-950 font-medium py-4 text-lg transition-all duration-500 transform hover:scale-110 hover:rotate-1 hover:shadow-2xl hover:shadow-gold-500/40 rounded-xl border-2 border-gold-500 hover:border-gold-400 tracking-wide uppercase group shadow-lg shadow-gold-500/20 hover:shadow-gold-400/40 focus:ring-4 focus:ring-gold-400/40"
             >
-              View Complete Portfolio
-              <ArrowRight className="w-5 h-5 ml-3 transition-transform duration-300 group-hover:translate-x-1" />
+              <span className="relative z-10">View Complete Portfolio</span>
+              <ArrowRight className="w-5 h-5 ml-3 transition-transform duration-300 group-hover:translate-x-2 group-hover:scale-125 group-hover:rotate-12" />
+              <span className="absolute inset-0 rounded-xl bg-gold-400/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-sm" />
             </Button>
           </div>
         </div>
@@ -1466,6 +1477,44 @@ export default function LuxuryLiveEntertainment() {
           </div>
         </div>
       </footer>
+
+      <Dialog open={selectedImageIdx !== null} onOpenChange={() => setSelectedImageIdx(null)}>
+        <DialogContent className="bg-black/80 border-0 shadow-none max-w-6xl p-0 flex flex-col items-center justify-center relative">
+          <DialogTitle className="sr-only">Image Preview</DialogTitle>
+          {selectedImageIdx !== null && (
+            <>
+              <button
+                onClick={() => setSelectedImageIdx(null)}
+                className="absolute top-4 right-4 z-20 p-2 rounded-full bg-black/60 hover:bg-black/80 text-white transition-colors"
+                aria-label="Close preview"
+              >
+                <CloseIcon className="w-7 h-7" />
+              </button>
+              <div className="flex items-center justify-center w-full h-full">
+                <button
+                  onClick={() => setSelectedImageIdx((selectedImageIdx - 1 + portfolioImages.length) % portfolioImages.length)}
+                  className="hidden md:flex items-center justify-center absolute left-2 top-1/2 -translate-y-1/2 z-10 p-2 rounded-full bg-black/40 hover:bg-black/70 text-white transition-colors"
+                  aria-label="Previous image"
+                >
+                  <svg width="32" height="32" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7"/></svg>
+                </button>
+                <img
+                  src={portfolioImages[selectedImageIdx].src}
+                  alt={portfolioImages[selectedImageIdx].alt}
+                  className="max-w-[90vw] max-h-[90vh] object-contain rounded-lg shadow-2xl"
+                />
+                <button
+                  onClick={() => setSelectedImageIdx((selectedImageIdx + 1) % portfolioImages.length)}
+                  className="hidden md:flex items-center justify-center absolute right-2 top-1/2 -translate-y-1/2 z-10 p-2 rounded-full bg-black/40 hover:bg-black/70 text-white transition-colors"
+                  aria-label="Next image"
+                >
+                  <svg width="32" height="32" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg>
+                </button>
+              </div>
+            </>
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }
