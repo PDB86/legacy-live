@@ -150,6 +150,24 @@ export default function LuxuryLiveEntertainment() {
 
   const bandFormats = [
     {
+      id: "party-band",
+      name: "Fusion DJ EXP",
+      subtitle: "The Complete Experience",
+      description:
+        "This is the pinnacle. A full-scale, sophisticated live show featuring powerhouse vocalists and world-class musicians. From Bruno Mars to Beyoncé, we don't just cover songs — we reimagine them.",
+      accentColor: "#b45309",
+      lightAccent: "#fde68a",
+    },
+    {
+      id: "latin-band",
+      name: "HAVANA SOUTH",
+      subtitle: "Ritmo y Elegancia",
+      description:
+        "From salsa to reggaeton, this ensemble doesn't just perform — they create magic. Live percussion, vocal excellence, and irresistible Latin rhythms that captivate every generation with refined energy.",
+      accentColor: "#0f766e",
+      lightAccent: "#99f6e4",
+    },
+    {
       id: "dj-bam",
       name: "DJ BAM",
       subtitle: "The Groove Architect",
@@ -175,24 +193,6 @@ export default function LuxuryLiveEntertainment() {
         "Lights, camera, elegance. DJ Tony isn't just performing — he's orchestrating an experience. Expect charisma, crowd mastery, and a sophisticated approach to musical storytelling.",
       accentColor: "#d97706",
       lightAccent: "#fcd34d",
-    },
-    {
-      id: "latin-band",
-      name: "LATIN ENSEMBLE",
-      subtitle: "Ritmo y Elegancia",
-      description:
-        "From salsa to reggaeton, this ensemble doesn't just perform — they create magic. Live percussion, vocal excellence, and irresistible Latin rhythms that captivate every generation with refined energy.",
-      accentColor: "#0f766e",
-      lightAccent: "#99f6e4",
-    },
-    {
-      id: "party-band",
-      name: "SIGNATURE BAND",
-      subtitle: "The Complete Experience",
-      description:
-        "This is the pinnacle. A full-scale, sophisticated live show featuring powerhouse vocalists and world-class musicians. From Bruno Mars to Beyoncé, we don't just cover songs — we reimagine them.",
-      accentColor: "#b45309",
-      lightAccent: "#fde68a",
     },
   ]
 
