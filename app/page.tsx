@@ -30,6 +30,123 @@ import {
 import Link from "next/link"
 import { submitContactForm } from "./actions/contact"
 
+// Format Modal Component
+function FormatModal({ 
+  isOpen, 
+  onClose, 
+  title, 
+  subtitle, 
+  description, 
+  accentColor 
+}: { 
+  isOpen: boolean
+  onClose: () => void
+  title: string
+  subtitle: string
+  description: string
+  accentColor: string
+}) {
+  const modalRef = useRef<HTMLDivElement>(null)
+  const closeButtonRef = useRef<HTMLButtonElement>(null)
+  const [isClosing, setIsClosing] = useState(false)
+
+  useEffect(() => {
+    if (!isOpen) return
+
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        handleClose()
+      }
+    }
+
+    const handleClickOutside = (e: MouseEvent) => {
+      if (modalRef.current && !modalRef.current.contains(e.target as Node)) {
+        handleClose()
+      }
+    }
+
+    document.addEventListener('keydown', handleEscape)
+    document.addEventListener('mousedown', handleClickOutside)
+    
+    // Prevent body scroll
+    document.body.style.overflow = 'hidden'
+    
+    // Focus management
+    if (closeButtonRef.current) {
+      closeButtonRef.current.focus()
+    }
+
+    return () => {
+      document.removeEventListener('keydown', handleEscape)
+      document.removeEventListener('mousedown', handleClickOutside)
+      document.body.style.overflow = 'unset'
+    }
+  }, [isOpen])
+
+  const handleClose = () => {
+    setIsClosing(true)
+    setTimeout(() => {
+      onClose()
+      setIsClosing(false)
+    }, 200)
+  }
+
+  if (!isOpen) return null
+
+  return (
+    <div 
+      className={`fixed inset-0 bg-black/70 flex items-center justify-center p-4 z-50 transition-opacity duration-200 ${
+        isClosing ? 'opacity-0' : 'opacity-100'
+      }`}
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="modal-title"
+      aria-describedby="modal-description"
+    >
+      <div 
+        ref={modalRef}
+        className={`bg-charcoal-950 border border-stone-700/50 rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto p-6 md:p-8 shadow-2xl transition-all duration-200 ${
+          isClosing ? 'scale-95 opacity-0' : 'scale-100 opacity-100'
+        }`}
+      >
+        {/* Header */}
+        <div className="flex items-start justify-between mb-6">
+          <div className="flex-1">
+            <h3 id="modal-title" className="text-3xl md:text-4xl font-serif text-stone-50 mb-3 tracking-tight">
+              {title}
+            </h3>
+            <div 
+              className="text-xl font-serif italic font-light"
+              style={{ color: accentColor }}
+            >
+              {subtitle}
+            </div>
+          </div>
+          <button
+            ref={closeButtonRef}
+            onClick={handleClose}
+            className="ml-4 p-2 text-stone-400 hover:text-stone-50 transition-colors duration-200 rounded-full hover:bg-stone-800/50"
+            aria-label="Close modal"
+          >
+            <X size={24} />
+          </button>
+        </div>
+        
+        {/* Content */}
+        <div className="space-y-6">
+          <div 
+            className="w-20 h-0.5 transition-all duration-300"
+            style={{ backgroundColor: accentColor }}
+          ></div>
+          <p id="modal-description" className="text-lg leading-relaxed font-light text-stone-300">
+            {description}
+          </p>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 export default function LuxuryLiveEntertainment() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [scrollY, setScrollY] = useState(0)
@@ -55,6 +172,9 @@ export default function LuxuryLiveEntertainment() {
   
   // Portfolio grid modal state
   const [isPortfolioGridOpen, setIsPortfolioGridOpen] = useState(false)
+  
+  // Format modal state
+  const [openFormatModal, setOpenFormatModal] = useState<string | null>(null)
 
   const portfolioImages = [
     { id: 1, alt: "Golden Hour Groove", src: "/PARTY_BAND_1.webp" },
@@ -447,7 +567,7 @@ export default function LuxuryLiveEntertainment() {
       <section
         id="home"
         ref={heroRef}
-        className="relative min-h-screen flex items-center justify-center overflow-hidden"
+        className="relative min-h-[80vh] md:min-h-screen flex items-start md:items-center justify-center overflow-hidden"
       >
         {/* Enhanced Video Background */}
         <div className="absolute inset-0 z-0">
@@ -482,8 +602,8 @@ export default function LuxuryLiveEntertainment() {
           </div>
         </div>
 
-        <div className="relative z-20 text-center max-w-6xl mx-auto px-6">
-          <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-serif mb-8 leading-tight tracking-tight">
+        <div className="relative z-20 flex flex-col justify-center items-center text-center max-w-6xl mx-auto px-6 pt-20 md:pt-0 md:pb-16">
+          <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-serif mb-6 md:mb-8 leading-tight tracking-tight">
             <span className="block text-stone-50 mb-4 animate-in fade-in slide-in-from-bottom duration-1000">
               Extraordinary Live
             </span>
@@ -492,7 +612,7 @@ export default function LuxuryLiveEntertainment() {
             </span>
           </h1>
 
-          <p className="text-xl md:text-2xl mb-12 text-stone-300 max-w-4xl mx-auto leading-relaxed font-light animate-in fade-in slide-in-from-bottom duration-1000 delay-500">
+          <p className="text-xl md:text-2xl mb-8 md:mb-12 text-stone-300 max-w-4xl mx-auto leading-relaxed font-light animate-in fade-in slide-in-from-bottom duration-1000 delay-500">
             <span className="block">Five distinctive formats. One unparalleled experience.</span>
             <span className="block">Elevating weddings, private celebrations, and corporate events.</span>
           </p>
@@ -513,7 +633,7 @@ export default function LuxuryLiveEntertainment() {
           </Button>
 
           {/* Enhanced Stats Section */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mt-20 max-w-4xl mx-auto">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mt-12 md:mt-20 max-w-4xl mx-auto">
             {stats.map((stat, index) => (
               <div
                 key={index}
@@ -537,7 +657,7 @@ export default function LuxuryLiveEntertainment() {
       {/* Enhanced Formats Section */}
       <section
         id="formats"
-        className="relative py-24 px-6 bg-gradient-to-b from-charcoal-900 to-charcoal-900"
+        className="relative py-16 md:py-24 px-6 bg-gradient-to-b from-charcoal-900 to-charcoal-900"
         style={{
           backgroundImage: 'url(/5-background.webp)',
           backgroundSize: 'cover',
@@ -555,7 +675,7 @@ export default function LuxuryLiveEntertainment() {
           aria-hidden="true"
         />
         <div className="container mx-auto max-w-7xl relative z-10">
-          <div className="text-center mb-20 animate-in fade-in slide-in-from-bottom duration-1000">
+          <div className="text-center mb-12 md:mb-20 animate-in fade-in slide-in-from-bottom duration-1000">
             <h2 className="text-4xl md:text-5xl lg:text-6xl font-serif mb-6 tracking-tight">
               <span className="text-stone-50">Five Distinctive </span>
               <span className="italic text-gold-400 font-light">Formats</span>
@@ -566,7 +686,7 @@ export default function LuxuryLiveEntertainment() {
             </p>
           </div>
 
-          <div className="space-y-32">
+          <div className="space-y-16 md:space-y-32">
             {bandFormats.map((format, index) => {
               const isVisible = visibleCards.has(format.id)
               const isReversed = index % 2 === 1
@@ -589,13 +709,13 @@ export default function LuxuryLiveEntertainment() {
                   >
                     {format.id === "dj-bam" && (
                       <div
-                        className="aspect-video bg-charcoal-800/50 backdrop-blur-sm overflow-hidden border border-stone-700/50 transition-all duration-700 transform hover:scale-[1.02] cursor-pointer group relative"
+                        className="relative w-full aspect-[16/9] overflow-hidden rounded-lg transition-all duration-700 transform hover:scale-[1.02] cursor-pointer group"
                         style={{
                           boxShadow: `0 8px 32px ${format.accentColor}20`,
                         }}
                         onMouseEnter={(e: React.MouseEvent<HTMLDivElement>) => {
                           const target = e.currentTarget as HTMLDivElement
-                          target.style.boxShadow = `0 12px 48px ${format.accentColor}40, 0 0 0 1px ${format.accentColor}30`
+                          target.style.boxShadow = `0 12px 48px ${format.accentColor}40`
                           target.style.transform = "scale(1.02) rotateY(2deg)"
                         }}
                         onMouseLeave={(e: React.MouseEvent<HTMLDivElement>) => {
@@ -604,28 +724,26 @@ export default function LuxuryLiveEntertainment() {
                           target.style.transform = "scale(1) rotateY(0deg)"
                         }}
                       >
-                        <div style={{ padding: "56.25% 0 0 0", position: "relative" }}>
-                          <iframe
-                            src="https://player.vimeo.com/video/1098987499?h=3f109ec64e&title=0&byline=0&portrait=0"
-                            frameBorder="0"
-                            allow="autoplay; fullscreen; picture-in-picture"
-                            allowFullScreen
-                            style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", zIndex: 2 }}
-                            title="DJ BAM PROMO"
-                          />
-                        </div>
+                        <iframe
+                          src="https://player.vimeo.com/video/1098987499?h=3f109ec64e&title=0&byline=0&portrait=0"
+                          frameBorder="0"
+                          allow="autoplay; fullscreen; picture-in-picture"
+                          allowFullScreen
+                          className="absolute inset-0 w-full h-full"
+                          title="DJ BAM PROMO"
+                        />
                         <div className="absolute inset-0 bg-gradient-to-t from-charcoal-950/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" style={{ pointerEvents: "none", zIndex: 1 }}></div>
                       </div>
                     )}
                     {format.id === "dj-fever" && (
                       <div
-                        className="aspect-video bg-charcoal-800/50 backdrop-blur-sm overflow-hidden border border-stone-700/50 transition-all duration-700 transform hover:scale-[1.02] cursor-pointer group relative"
+                        className="relative w-full aspect-[16/9] overflow-hidden rounded-lg transition-all duration-700 transform hover:scale-[1.02] cursor-pointer group"
                         style={{
                           boxShadow: `0 8px 32px ${format.accentColor}20`,
                         }}
                         onMouseEnter={(e: React.MouseEvent<HTMLDivElement>) => {
                           const target = e.currentTarget as HTMLDivElement
-                          target.style.boxShadow = `0 12px 48px ${format.accentColor}40, 0 0 0 1px ${format.accentColor}30`
+                          target.style.boxShadow = `0 12px 48px ${format.accentColor}40`
                           target.style.transform = "scale(1.02) rotateY(-2deg)"
                         }}
                         onMouseLeave={(e: React.MouseEvent<HTMLDivElement>) => {
@@ -634,28 +752,26 @@ export default function LuxuryLiveEntertainment() {
                           target.style.transform = "scale(1) rotateY(0deg)"
                         }}
                       >
-                        <div style={{ padding: "56.25% 0 0 0", position: "relative" }}>
-                          <iframe
-                            src="https://player.vimeo.com/video/1098987561?h=852b52e54f&title=0&byline=0&portrait=0"
-                            frameBorder="0"
-                            allow="autoplay; fullscreen; picture-in-picture"
-                            allowFullScreen
-                            style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", zIndex: 2 }}
-                            title="DJ FEVER PROMO"
-                          />
-                        </div>
+                        <iframe
+                          src="https://player.vimeo.com/video/1098987561?h=852b52e54f&title=0&byline=0&portrait=0"
+                          frameBorder="0"
+                          allow="autoplay; fullscreen; picture-in-picture"
+                          allowFullScreen
+                          className="absolute inset-0 w-full h-full"
+                          title="DJ FEVER PROMO"
+                        />
                         <div className="absolute inset-0 bg-gradient-to-t from-charcoal-950/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" style={{ pointerEvents: "none", zIndex: 1 }}></div>
                       </div>
                     )}
                     {format.id === "dj-tony" && (
                       <div
-                        className="aspect-video bg-charcoal-800/50 backdrop-blur-sm overflow-hidden border border-stone-700/50 transition-all duration-700 transform hover:scale-[1.02] cursor-pointer group relative"
+                        className="relative w-full aspect-[16/9] overflow-hidden rounded-lg transition-all duration-700 transform hover:scale-[1.02] cursor-pointer group"
                         style={{
                           boxShadow: `0 8px 32px ${format.accentColor}20`,
                         }}
                         onMouseEnter={(e: React.MouseEvent<HTMLDivElement>) => {
                           const target = e.currentTarget as HTMLDivElement
-                          target.style.boxShadow = `0 12px 48px ${format.accentColor}40, 0 0 0 1px ${format.accentColor}30`
+                          target.style.boxShadow = `0 12px 48px ${format.accentColor}40`
                           target.style.transform = "scale(1.02) rotateY(2deg)"
                         }}
                         onMouseLeave={(e: React.MouseEvent<HTMLDivElement>) => {
@@ -664,28 +780,26 @@ export default function LuxuryLiveEntertainment() {
                           target.style.transform = "scale(1) rotateY(0deg)"
                         }}
                       >
-                        <div style={{ padding: "56.25% 0 0 0", position: "relative" }}>
-                          <iframe
-                            src="https://player.vimeo.com/video/1098987612?h=c0abf2ce95&title=0&byline=0&portrait=0"
-                            frameBorder="0"
-                            allow="autoplay; fullscreen; picture-in-picture"
-                            allowFullScreen
-                            style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", zIndex: 2 }}
-                            title="DJ TONY PROMO"
-                          />
-                        </div>
+                        <iframe
+                          src="https://player.vimeo.com/video/1098987612?h=c0abf2ce95&title=0&byline=0&portrait=0"
+                          frameBorder="0"
+                          allow="autoplay; fullscreen; picture-in-picture"
+                          allowFullScreen
+                          className="absolute inset-0 w-full h-full"
+                          title="DJ TONY PROMO"
+                        />
                         <div className="absolute inset-0 bg-gradient-to-t from-charcoal-950/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" style={{ pointerEvents: "none", zIndex: 1 }}></div>
                       </div>
                     )}
                     {format.id === "latin-band" && (
                       <div
-                        className="aspect-video bg-charcoal-800/50 backdrop-blur-sm overflow-hidden border border-stone-700/50 transition-all duration-700 transform hover:scale-[1.02] cursor-pointer group relative"
+                        className="relative w-full aspect-[16/9] overflow-hidden rounded-lg transition-all duration-700 transform hover:scale-[1.02] cursor-pointer group"
                         style={{
                           boxShadow: `0 8px 32px ${format.accentColor}20`,
                         }}
                         onMouseEnter={(e: React.MouseEvent<HTMLDivElement>) => {
                           const target = e.currentTarget as HTMLDivElement
-                          target.style.boxShadow = `0 12px 48px ${format.accentColor}40, 0 0 0 1px ${format.accentColor}30`
+                          target.style.boxShadow = `0 12px 48px ${format.accentColor}40`
                           target.style.transform = "scale(1.02) rotateY(-2deg)"
                         }}
                         onMouseLeave={(e: React.MouseEvent<HTMLDivElement>) => {
@@ -694,28 +808,26 @@ export default function LuxuryLiveEntertainment() {
                           target.style.transform = "scale(1) rotateY(0deg)"
                         }}
                       >
-                        <div style={{ padding: "56.25% 0 0 0", position: "relative" }}>
-                          <iframe
-                            src="https://player.vimeo.com/video/1098987357?h=443ed6f06e&title=0&byline=0&portrait=0"
-                            frameBorder="0"
-                            allow="autoplay; fullscreen; picture-in-picture"
-                            allowFullScreen
-                            style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", zIndex: 2 }}
-                            title="LATIN BAND PROMO"
-                          />
-                        </div>
+                        <iframe
+                          src="https://player.vimeo.com/video/1098987357?h=443ed6f06e&title=0&byline=0&portrait=0"
+                          frameBorder="0"
+                          allow="autoplay; fullscreen; picture-in-picture"
+                          allowFullScreen
+                          className="absolute inset-0 w-full h-full"
+                          title="LATIN BAND PROMO"
+                        />
                         <div className="absolute inset-0 bg-gradient-to-t from-charcoal-950/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" style={{ pointerEvents: "none", zIndex: 1 }}></div>
                       </div>
                     )}
                     {format.id === "party-band" && (
                       <div
-                        className="aspect-video bg-charcoal-800/50 backdrop-blur-sm overflow-hidden border border-stone-700/50 transition-all duration-700 transform hover:scale-[1.02] cursor-pointer group relative"
+                        className="relative w-full aspect-[16/9] overflow-hidden rounded-lg transition-all duration-700 transform hover:scale-[1.02] cursor-pointer group"
                         style={{
                           boxShadow: `0 8px 32px ${format.accentColor}20`,
                         }}
                         onMouseEnter={(e: React.MouseEvent<HTMLDivElement>) => {
                           const target = e.currentTarget as HTMLDivElement
-                          target.style.boxShadow = `0 12px 48px ${format.accentColor}40, 0 0 0 1px ${format.accentColor}30`
+                          target.style.boxShadow = `0 12px 48px ${format.accentColor}40`
                           target.style.transform = "scale(1.02) rotateY(2deg)"
                         }}
                         onMouseLeave={(e: React.MouseEvent<HTMLDivElement>) => {
@@ -724,16 +836,14 @@ export default function LuxuryLiveEntertainment() {
                           target.style.transform = "scale(1) rotateY(0deg)"
                         }}
                       >
-                        <div style={{ padding: "56.25% 0 0 0", position: "relative" }}>
-                          <iframe
-                            src="https://player.vimeo.com/video/1098987411?h=c095a6fa6e&title=0&byline=0&portrait=0"
-                            frameBorder="0"
-                            allow="autoplay; fullscreen; picture-in-picture"
-                            allowFullScreen
-                            style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", zIndex: 2 }}
-                            title="PARTY BAND PROMO"
-                          />
-                        </div>
+                        <iframe
+                          src="https://player.vimeo.com/video/1098987411?h=c095a6fa6e&title=0&byline=0&portrait=0"
+                          frameBorder="0"
+                          allow="autoplay; fullscreen; picture-in-picture"
+                          allowFullScreen
+                          className="absolute inset-0 w-full h-full"
+                          title="PARTY BAND PROMO"
+                        />
                         <div className="absolute inset-0 bg-gradient-to-t from-charcoal-950/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" style={{ pointerEvents: "none", zIndex: 1 }}></div>
                       </div>
                     )}
@@ -741,7 +851,7 @@ export default function LuxuryLiveEntertainment() {
 
                   {/* Enhanced Content Section */}
                   <div
-                    className={`space-y-8 ${isReversed ? "lg:col-start-1 lg:row-start-1" : ""} order-2 ${isReversed ? "lg:order-1" : "lg:order-2"}`}
+                    className={`space-y-2 ${isReversed ? "lg:col-start-1 lg:row-start-1" : ""} order-2 ${isReversed ? "lg:order-1" : "lg:order-2"}`}
                   >
                     <div>
                       {/* Enhanced accent line */}
@@ -767,12 +877,9 @@ export default function LuxuryLiveEntertainment() {
                       </div>
                     </div>
 
-                    <p className="text-lg leading-relaxed font-light max-w-2xl text-stone-300 transition-all duration-500 hover:text-stone-200">
-                      {format.description}
-                    </p>
-
                     <Button
                       variant="outline"
+                      onClick={() => setOpenFormatModal(format.id)}
                       className="border-stone-600 text-stone-300 hover:bg-stone-800/50 hover:text-stone-50 transition-all duration-500 px-6 py-3 rounded-none tracking-wide uppercase text-sm bg-transparent transform hover:scale-105 hover:shadow-lg group"
                     >
                       Learn More
@@ -785,6 +892,19 @@ export default function LuxuryLiveEntertainment() {
           </div>
         </div>
       </section>
+
+      {/* Format Modals */}
+      {bandFormats.map((format) => (
+        <FormatModal
+          key={format.id}
+          isOpen={openFormatModal === format.id}
+          onClose={() => setOpenFormatModal(null)}
+          title={format.name}
+          subtitle={format.subtitle}
+          description={format.description}
+          accentColor={format.accentColor}
+        />
+      ))}
 
       {/* CEO Bio Section */}
       <section className="relative py-24 px-6 bg-gradient-to-b from-charcoal-900 to-charcoal-950 overflow-hidden">
@@ -822,11 +942,34 @@ export default function LuxuryLiveEntertainment() {
             </h2>
           </div>
 
-          {/* Enhanced Single Carousel */}
-          <div className="relative mb-12 overflow-hidden">
+          {/* MOBILE STATIC LAYOUT */}
+          <div className="block md:hidden">
+            {/* Vertical stack of portfolio items — scrollable but no horizontal overflow */}
+            <div className="mt-6 px-4 space-y-4 max-h-[70vh] overflow-y-auto">
+              {portfolioImages.slice(0, 6).map((item, idx) => (
+                <div key={`mobile-${item.id}`} className="relative w-full overflow-hidden rounded-xl shadow-lg bg-black">
+                  <div className="relative w-full aspect-[9/16] sm:aspect-[3/4]">
+                    <img
+                      src={item.src}
+                      alt={item.alt}
+                      className="absolute inset-0 h-full w-full object-cover"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-charcoal-950/60 via-transparent to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300"></div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* DESKTOP/TABLET CAROUSEL */}
+          <div className="hidden md:block">
+            <div className="relative mb-12 overflow-hidden">
+            <div id="portfolio-carousel-description" className="sr-only">
+              Use your mouse to drag and scroll through the portfolio highlights, or use touch gestures on mobile devices.
+            </div>
             <div 
               ref={carouselContainerRef}
-              className="flex animate-scroll-left hover:pause overflow-x-auto overflow-y-hidden scrollbar-hide snap-x snap-mandatory carousel-scroll"
+              className="flex overflow-x-auto overflow-y-hidden scrollbar-hide snap-x snap-mandatory carousel-scroll"
               onMouseDown={handleMouseDown}
               onMouseMove={handleMouseMove}
               onMouseUp={handleMouseUp}
@@ -834,6 +977,9 @@ export default function LuxuryLiveEntertainment() {
               onTouchStart={handleTouchStart}
               onTouchMove={handleTouchMove}
               onTouchEnd={handleTouchEnd}
+              role="region"
+              aria-label="Portfolio Highlights Carousel"
+              aria-describedby="portfolio-carousel-description"
             >
               {portfolioImages.map((item, idx) => (
                 <div
@@ -851,19 +997,26 @@ export default function LuxuryLiveEntertainment() {
                   style={{
                     boxShadow: "0 20px 40px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.05)",
                   }}
+                  role="button"
+                  tabIndex={0}
+                  aria-label={`View ${item.alt} portfolio item`}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      if (!isDragging) {
+                        setSelectedImageIdx(idx);
+                      }
+                    }
+                  }}
                 >
-                  <div className="w-full h-full bg-gradient-to-br from-charcoal-800 to-charcoal-900 flex items-center justify-center relative overflow-hidden">
+                  <div className="relative w-full aspect-[4/3] overflow-hidden rounded-lg">
                     <img
                       src={item.src}
                       alt={item.alt}
-                      className="w-full h-full object-contain transition-all duration-700 group-hover:scale-105 opacity-90 group-hover:opacity-100"
+                      className="absolute inset-0 w-full h-full object-cover transition-all duration-700 group-hover:scale-105 opacity-90 group-hover:opacity-100"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-charcoal-950/90 via-charcoal-950/20 to-transparent opacity-60 group-hover:opacity-40 transition-opacity duration-700"></div>
                     <div className="absolute inset-0 bg-gradient-to-br from-gold-500/10 via-transparent to-gold-600/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
-                    <div className="absolute bottom-8 left-8 right-8 text-stone-100 text-lg font-light opacity-0 group-hover:opacity-100 transition-all duration-700 tracking-wide transform translate-y-6 group-hover:translate-y-0 drop-shadow-lg">
-                      <div className="text-xl font-serif text-gold-400 mb-2">{item.alt}</div>
-                      <div className="text-sm text-stone-300 uppercase tracking-wider">LegacyLive Experience</div>
-                    </div>
                     {/* Enhanced glow effect */}
                     <div className="absolute inset-0 opacity-0 group-hover:opacity-20 transition-opacity duration-700 bg-gradient-to-r from-gold-400/20 via-transparent to-gold-600/20 blur-xl"></div>
                   </div>
@@ -883,19 +1036,26 @@ export default function LuxuryLiveEntertainment() {
                   style={{
                     boxShadow: "0 20px 40px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.05)",
                   }}
+                  role="button"
+                  tabIndex={0}
+                  aria-label={`View ${item.alt} portfolio item`}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      if (!isDragging) {
+                        setSelectedImageIdx(idx);
+                      }
+                    }
+                  }}
                 >
-                  <div className="w-full h-full bg-gradient-to-br from-charcoal-800 to-charcoal-900 flex items-center justify-center relative overflow-hidden">
+                  <div className="relative w-full aspect-[4/3] overflow-hidden rounded-lg">
                     <img
                       src={item.src}
                       alt={item.alt}
-                      className="w-full h-full object-contain transition-all duration-700 group-hover:scale-105 opacity-90 group-hover:opacity-100"
+                      className="absolute inset-0 w-full h-full object-cover transition-all duration-700 group-hover:scale-105 opacity-90 group-hover:opacity-100"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-charcoal-950/90 via-charcoal-950/20 to-transparent opacity-60 group-hover:opacity-40 transition-opacity duration-700"></div>
                     <div className="absolute inset-0 bg-gradient-to-br from-gold-500/10 via-transparent to-gold-600/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
-                    <div className="absolute bottom-8 left-8 right-8 text-stone-100 text-lg font-light opacity-0 group-hover:opacity-100 transition-all duration-700 tracking-wide transform translate-y-6 group-hover:translate-y-0 drop-shadow-lg">
-                      <div className="text-xl font-serif text-gold-400 mb-2">{item.alt}</div>
-                      <div className="text-sm text-stone-300 uppercase tracking-wider">LegacyLive Experience</div>
-                    </div>
                     {/* Enhanced glow effect */}
                     <div className="absolute inset-0 opacity-0 group-hover:opacity-20 transition-opacity duration-700 bg-gradient-to-r from-gold-400/20 via-transparent to-gold-600/20 blur-xl"></div>
                   </div>
@@ -903,6 +1063,7 @@ export default function LuxuryLiveEntertainment() {
               ))}
             </div>
           </div>
+        </div>
 
           {/* Enhanced Call to Action */}
           <div className="text-center mt-16">
@@ -910,10 +1071,10 @@ export default function LuxuryLiveEntertainment() {
               variant="outline"
               size="lg"
               onClick={() => setIsPortfolioGridOpen(true)}
-              className="mx-auto px-10 bg-gradient-to-r from-gold-500 to-gold-600 hover:from-gold-400 hover:to-gold-500 text-charcoal-950 font-medium py-4 text-lg transition-all duration-500 transform hover:scale-110 hover:rotate-1 hover:shadow-2xl hover:shadow-gold-500/40 rounded-xl border-2 border-gold-500 hover:border-gold-400 tracking-wide uppercase group shadow-lg shadow-gold-500/20 hover:shadow-gold-400/40 focus:ring-4 focus:ring-gold-400/40"
+              className="mx-auto px-6 md:px-10 bg-gradient-to-r from-gold-500 to-gold-600 hover:from-gold-400 hover:to-gold-500 text-charcoal-950 font-medium py-3 md:py-4 text-base md:text-lg transition-all duration-500 transform hover:scale-105 md:hover:scale-110 hover:rotate-1 hover:shadow-2xl hover:shadow-gold-500/40 rounded-xl border-2 border-gold-500 hover:border-gold-400 tracking-wide uppercase group shadow-lg shadow-gold-500/20 hover:shadow-gold-400/40 focus:ring-4 focus:ring-gold-400/40"
             >
               <span className="relative z-10">View Complete Portfolio</span>
-              <ArrowRight className="w-5 h-5 ml-3 transition-transform duration-300 group-hover:translate-x-2 group-hover:scale-125 group-hover:rotate-12" />
+              <ArrowRight className="w-4 h-4 md:w-5 md:h-5 ml-2 md:ml-3 transition-transform duration-300 group-hover:translate-x-1 md:group-hover:translate-x-2 group-hover:scale-110 md:group-hover:scale-125 group-hover:rotate-12" />
               <span className="absolute inset-0 rounded-xl bg-gold-400/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-sm" />
             </Button>
           </div>
@@ -921,7 +1082,7 @@ export default function LuxuryLiveEntertainment() {
       </section>
 
       {/* Enhanced Standards Section */}
-      <section className="relative py-24 px-6 bg-gradient-to-b from-charcoal-900 to-charcoal-950">
+      <section className="relative py-24 px-2 md:px-6 bg-gradient-to-b from-charcoal-900 to-charcoal-950">
         <div className="container mx-auto max-w-7xl">
           <div className="text-center mb-20 animate-in fade-in slide-in-from-bottom duration-1000">
             <h2 className="text-4xl sm:text-5xl lg:text-6xl font-serif mb-8 tracking-tight">
@@ -933,12 +1094,12 @@ export default function LuxuryLiveEntertainment() {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12">
+          <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8 lg:gap-12">
             {/* Custom */}
-            <div className="group text-center p-8 bg-charcoal-800/20 backdrop-blur-sm border border-stone-700/30 hover:border-gold-500/30 transition-all duration-700 transform hover:scale-105 hover:-translate-y-2 cursor-default">
-              <div className="w-16 h-16 mx-auto mb-6 flex items-center justify-center bg-gradient-to-br from-gold-400/20 to-gold-600/20 rounded-full border border-gold-500/30 group-hover:border-gold-400/50 transition-all duration-500 transform group-hover:scale-110 group-hover:rotate-12">
+            <div className="group text-center p-4 md:p-8 bg-charcoal-800/20 backdrop-blur-sm border border-stone-700/30 hover:border-gold-500/30 transition-all duration-700 transform hover:scale-105 hover:-translate-y-2 cursor-default">
+              <div className="w-12 h-12 md:w-16 md:h-16 mx-auto mb-4 md:mb-6 flex items-center justify-center bg-gradient-to-br from-gold-400/20 to-gold-600/20 rounded-full border border-gold-500/30 group-hover:border-gold-400/50 transition-all duration-500 transform group-hover:scale-110 group-hover:rotate-12">
                 <svg
-                  className="w-8 h-8 text-gold-400 group-hover:text-gold-300 transition-colors duration-500"
+                  className="w-6 h-6 md:w-8 md:h-8 text-gold-400 group-hover:text-gold-300 transition-colors duration-500"
                   fill="currentColor"
                   viewBox="0 0 24 24"
                 >
@@ -946,20 +1107,20 @@ export default function LuxuryLiveEntertainment() {
                   <path d="M8 15c.83 0 1.5-.67 1.5-1.5 0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5c0 .83.67 1.5 1.5 1.5zm0-9C6.34 6 5 7.34 5 9s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3zm8 0c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3zm0 9c-.83 0-1.5.67-1.5 1.5 0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5c0-.83-.67-1.5-1.5-1.5z" />
                 </svg>
               </div>
-              <h3 className="text-2xl font-serif mb-4 text-stone-50 group-hover:text-gold-400 transition-colors duration-500">
+              <h3 className="text-lg md:text-2xl font-serif mb-3 md:mb-4 text-stone-50 group-hover:text-gold-400 transition-colors duration-500">
                 Custom
               </h3>
-              <p className="text-stone-400 leading-relaxed font-light group-hover:text-stone-300 transition-colors duration-500">
+              <p className="text-sm md:text-base text-stone-400 leading-snug md:leading-relaxed font-light group-hover:text-stone-300 transition-colors duration-500">
                 Because every event is unique, Legacy Live delivers a tailor-made performance designed to meet your
                 specific needs and vision.
               </p>
             </div>
 
             {/* Interactive */}
-            <div className="group text-center p-8 bg-charcoal-800/20 backdrop-blur-sm border border-stone-700/30 hover:border-gold-500/30 transition-all duration-700 transform hover:scale-105 hover:-translate-y-2 cursor-default">
-              <div className="w-16 h-16 mx-auto mb-6 flex items-center justify-center bg-gradient-to-br from-gold-400/20 to-gold-600/20 rounded-full border border-gold-500/30 group-hover:border-gold-400/50 transition-all duration-500 transform group-hover:scale-110 group-hover:rotate-12">
+            <div className="group text-center p-4 md:p-8 bg-charcoal-800/20 backdrop-blur-sm border border-stone-700/30 hover:border-gold-500/30 transition-all duration-700 transform hover:scale-105 hover:-translate-y-2 cursor-default">
+              <div className="w-12 h-12 md:w-16 md:h-16 mx-auto mb-4 md:mb-6 flex items-center justify-center bg-gradient-to-br from-gold-400/20 to-gold-600/20 rounded-full border border-gold-500/30 group-hover:border-gold-400/50 transition-all duration-500 transform group-hover:scale-110 group-hover:rotate-12">
                 <svg
-                  className="w-8 h-8 text-gold-400 group-hover:text-gold-300 transition-colors duration-500"
+                  className="w-6 h-6 md:w-8 md:h-8 text-gold-400 group-hover:text-gold-300 transition-colors duration-500"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -972,20 +1133,20 @@ export default function LuxuryLiveEntertainment() {
                   />
                 </svg>
               </div>
-              <h3 className="text-2xl font-serif mb-4 text-stone-50 group-hover:text-gold-400 transition-colors duration-500">
+              <h3 className="text-lg md:text-2xl font-serif mb-3 md:mb-4 text-stone-50 group-hover:text-gold-400 transition-colors duration-500">
                 Interactive
               </h3>
-              <p className="text-stone-400 leading-relaxed font-light group-hover:text-stone-300 transition-colors duration-500">
+              <p className="text-sm md:text-base text-stone-400 leading-snug md:leading-relaxed font-light group-hover:text-stone-300 transition-colors duration-500">
                 Our performers are highly interactive, inviting guests to take part in a unique and memorable musical
                 experience that engages everyone.
               </p>
             </div>
 
             {/* International */}
-            <div className="group text-center p-8 bg-charcoal-800/20 backdrop-blur-sm border border-stone-700/30 hover:border-gold-500/30 transition-all duration-700 transform hover:scale-105 hover:-translate-y-2 cursor-default">
-              <div className="w-16 h-16 mx-auto mb-6 flex items-center justify-center bg-gradient-to-br from-gold-400/20 to-gold-600/20 rounded-full border border-gold-500/30 group-hover:border-gold-400/50 transition-all duration-500 transform group-hover:scale-110 group-hover:rotate-12">
+            <div className="group text-center p-4 md:p-8 bg-charcoal-800/20 backdrop-blur-sm border border-stone-700/30 hover:border-gold-500/30 transition-all duration-700 transform hover:scale-105 hover:-translate-y-2 cursor-default">
+              <div className="w-12 h-12 md:w-16 md:h-16 mx-auto mb-4 md:mb-6 flex items-center justify-center bg-gradient-to-br from-gold-400/20 to-gold-600/20 rounded-full border border-gold-500/30 group-hover:border-gold-400/50 transition-all duration-500 transform group-hover:scale-110 group-hover:rotate-12">
                 <svg
-                  className="w-8 h-8 text-gold-400 group-hover:text-gold-300 transition-colors duration-500"
+                  className="w-6 h-6 md:w-8 md:h-8 text-gold-400 group-hover:text-gold-300 transition-colors duration-500"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -995,20 +1156,20 @@ export default function LuxuryLiveEntertainment() {
                   <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
                 </svg>
               </div>
-              <h3 className="text-2xl font-serif mb-4 text-stone-50 group-hover:text-gold-400 transition-colors duration-500">
+              <h3 className="text-lg md:text-2xl font-serif mb-3 md:mb-4 text-stone-50 group-hover:text-gold-400 transition-colors duration-500">
                 International
               </h3>
-              <p className="text-stone-400 leading-relaxed font-light group-hover:text-stone-300 transition-colors duration-500">
+              <p className="text-sm md:text-base text-stone-400 leading-snug md:leading-relaxed font-light group-hover:text-stone-300 transition-colors duration-500">
                 Fluent in multiple languages and performing diverse repertoires, we offer a versatile experience that
                 engages all audiences.
               </p>
             </div>
 
             {/* Reliable */}
-            <div className="group text-center p-8 bg-charcoal-800/20 backdrop-blur-sm border border-stone-700/30 hover:border-gold-500/30 transition-all duration-700 transform hover:scale-105 hover:-translate-y-2 cursor-default">
-              <div className="w-16 h-16 mx-auto mb-6 flex items-center justify-center bg-gradient-to-br from-gold-400/20 to-gold-600/20 rounded-full border border-gold-500/30 group-hover:border-gold-400/50 transition-all duration-500 transform group-hover:scale-110 group-hover:rotate-12">
+            <div className="group text-center p-4 md:p-8 bg-charcoal-800/20 backdrop-blur-sm border border-stone-700/30 hover:border-gold-500/30 transition-all duration-700 transform hover:scale-105 hover:-translate-y-2 cursor-default">
+              <div className="w-12 h-12 md:w-16 md:h-16 mx-auto mb-4 md:mb-6 flex items-center justify-center bg-gradient-to-br from-gold-400/20 to-gold-600/20 rounded-full border border-gold-500/30 group-hover:border-gold-400/50 transition-all duration-500 transform group-hover:scale-110 group-hover:rotate-12">
                 <svg
-                  className="w-8 h-8 text-gold-400 group-hover:text-gold-300 transition-colors duration-500"
+                  className="w-6 h-6 md:w-8 md:h-8 text-gold-400 group-hover:text-gold-300 transition-colors duration-500"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -1021,20 +1182,20 @@ export default function LuxuryLiveEntertainment() {
                   />
                 </svg>
               </div>
-              <h3 className="text-2xl font-serif mb-4 text-stone-50 group-hover:text-gold-400 transition-colors duration-500">
+              <h3 className="text-lg md:text-2xl font-serif mb-3 md:mb-4 text-stone-50 group-hover:text-gold-400 transition-colors duration-500">
                 Reliable
               </h3>
-              <p className="text-stone-400 leading-relaxed font-light group-hover:text-stone-300 transition-colors duration-500">
+              <p className="text-sm md:text-base text-stone-400 leading-snug md:leading-relaxed font-light group-hover:text-stone-300 transition-colors duration-500">
                 We take our mission seriously: punctuality, professionalism, and attention to detail. Nothing is left up
                 to chance in our performances.
               </p>
             </div>
 
             {/* Savoir-Faire */}
-            <div className="group text-center p-8 bg-charcoal-800/20 backdrop-blur-sm border border-stone-700/30 hover:border-gold-500/30 transition-all duration-700 transform hover:scale-105 hover:-translate-y-2 cursor-default">
-              <div className="w-16 h-16 mx-auto mb-6 flex items-center justify-center bg-gradient-to-br from-gold-400/20 to-gold-600/20 rounded-full border border-gold-500/30 group-hover:border-gold-400/50 transition-all duration-500 transform group-hover:scale-110 group-hover:rotate-12">
+            <div className="group text-center p-4 md:p-8 bg-charcoal-800/20 backdrop-blur-sm border border-stone-700/30 hover:border-gold-500/30 transition-all duration-700 transform hover:scale-105 hover:-translate-y-2 cursor-default">
+              <div className="w-12 h-12 md:w-16 md:h-16 mx-auto mb-4 md:mb-6 flex items-center justify-center bg-gradient-to-br from-gold-400/20 to-gold-600/20 rounded-full border border-gold-500/30 group-hover:border-gold-400/50 transition-all duration-500 transform group-hover:scale-110 group-hover:rotate-12">
                 <svg
-                  className="w-8 h-8 text-gold-400 group-hover:text-gold-300 transition-colors duration-500"
+                  className="w-6 h-6 md:w-8 md:h-8 text-gold-400 group-hover:text-gold-300 transition-colors duration-500"
                   fill="currentColor"
                   viewBox="0 0 24 24"
                 >
@@ -1042,30 +1203,30 @@ export default function LuxuryLiveEntertainment() {
                   <path d="M16.5 6L12 7.5V3h4.5z" />
                 </svg>
               </div>
-              <h3 className="text-2xl font-serif mb-4 text-stone-50 group-hover:text-gold-400 transition-colors duration-500">
+              <h3 className="text-lg md:text-2xl font-serif mb-3 md:mb-4 text-stone-50 group-hover:text-gold-400 transition-colors duration-500">
                 Savoir-Faire
               </h3>
-              <p className="text-stone-400 leading-relaxed font-light group-hover:text-stone-300 transition-colors duration-500">
+              <p className="text-sm md:text-base text-stone-400 leading-snug md:leading-relaxed font-light group-hover:text-stone-300 transition-colors duration-500">
                 The right song at the right time! Our expert control of the mood will take your guests from anticipation
                 to euphoria—a night they will never forget.
               </p>
             </div>
 
             {/* Passion */}
-            <div className="group text-center p-8 bg-charcoal-800/20 backdrop-blur-sm border border-stone-700/30 hover:border-gold-500/30 transition-all duration-700 transform hover:scale-105 hover:-translate-y-2 cursor-default">
-              <div className="w-16 h-16 mx-auto mb-6 flex items-center justify-center bg-gradient-to-br from-gold-400/20 to-gold-600/20 rounded-full border border-gold-500/30 group-hover:border-gold-400/50 transition-all duration-500 transform group-hover:scale-110 group-hover:rotate-12">
+            <div className="group text-center p-4 md:p-8 bg-charcoal-800/20 backdrop-blur-sm border border-stone-700/30 hover:border-gold-500/30 transition-all duration-700 transform hover:scale-105 hover:-translate-y-2 cursor-default">
+              <div className="w-12 h-12 md:w-16 md:h-16 mx-auto mb-4 md:mb-6 flex items-center justify-center bg-gradient-to-br from-gold-400/20 to-gold-600/20 rounded-full border border-gold-500/30 group-hover:border-gold-400/50 transition-all duration-500 transform group-hover:scale-110 group-hover:rotate-12">
                 <svg
-                  className="w-8 h-8 text-gold-400 group-hover:text-gold-300 transition-colors duration-500"
+                  className="w-6 h-6 md:w-8 md:h-8 text-gold-400 group-hover:text-gold-300 transition-colors duration-500"
                   fill="currentColor"
                   viewBox="0 0 24 24"
                 >
                   <path d="M12,21.35L10.55,20.03C5.4,15.36 2,12.27 2,8.5 2,5.41 4.42,3 7.5,3C9.24,3 10.91,3.81 12,5.08C13.09,3.81 14.76,3 16.5,3C19.58,3 22,5.41 22,8.5C22,12.27 18.6,15.36 13.45,20.03L12,21.35Z" />
                 </svg>
               </div>
-              <h3 className="text-2xl font-serif mb-4 text-stone-50 group-hover:text-gold-400 transition-colors duration-500">
+              <h3 className="text-lg md:text-2xl font-serif mb-3 md:mb-4 text-stone-50 group-hover:text-gold-400 transition-colors duration-500">
                 Passion
               </h3>
-              <p className="text-stone-400 leading-relaxed font-light group-hover:text-stone-300 transition-colors duration-500">
+              <p className="text-sm md:text-base text-stone-400 leading-snug md:leading-relaxed font-light group-hover:text-stone-300 transition-colors duration-500">
                 Our artists' love for their craft shows not only in their explosive live energy, but also in the years
                 spent mastering their instruments and performance.
               </p>
@@ -1075,7 +1236,7 @@ export default function LuxuryLiveEntertainment() {
       </section>
 
       {/* Trusted Brands Section */}
-      <section className="relative py-16 px-6 bg-gradient-to-r from-gold-600 via-gold-500 to-gold-600 overflow-hidden">
+      <section className="hidden md:block relative py-16 px-6 bg-gradient-to-r from-gold-600 via-gold-500 to-gold-600 overflow-hidden">
         <div className="container mx-auto max-w-7xl">
           <div className="text-center mb-12">
             <h2 className="text-2xl md:text-3xl font-serif text-charcoal-950 tracking-wide uppercase font-light">
@@ -1085,7 +1246,7 @@ export default function LuxuryLiveEntertainment() {
 
           {/* Brand Logos Carousel */}
           <div className="relative overflow-hidden">
-            <div className="flex animate-scroll-left hover:pause">
+            <div className="flex">
               {/* First set of logos */}
               {[
                 {
