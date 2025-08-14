@@ -680,7 +680,7 @@ export default function LuxuryLiveEntertainment() {
               <span className="text-stone-50">Five Distinctive </span>
               <span className="italic text-gold-400 font-light">Formats</span>
             </h2>
-            <p className="text-xl text-stone-400 max-w-3xl mx-auto leading-relaxed font-light">
+            <p className="hidden md:block text-xl text-stone-400 max-w-3xl mx-auto leading-relaxed font-light">
               Each format represents a complete artistic experience, meticulously crafted to create the perfect
               atmosphere for your distinguished event
             </p>
@@ -926,7 +926,7 @@ export default function LuxuryLiveEntertainment() {
               <div className="w-20 h-0.5 bg-gold-400 mb-8 mx-auto md:mx-0"></div>
             </div>
             <p className="text-lg md:text-xl font-light text-stone-300 leading-relaxed max-w-2xl mx-auto md:mx-0 whitespace-pre-line">
-              {`Jacin Nagao is the powerhouse behind Legacy Live—a world-class band built to deliver unforgettable performances at high-end weddings, corporate galas, and private events. As a multi-instrumentalist and veteran bandleader, Jacin brings decades of touring experience, unmatched versatility, and an instinct for packing dance floors.\n\nEqually skilled on guitar, saxophone, and vocals, Jacin has toured globally with artists like Ricky Martin, Enrique Iglesias, Flo Rida, Joss Stone, and Jon Secada. His deep musical training and showmanship turn every event into a top-tier production.\n\nWith a master's degree in music and a reputation for excellence, Jacin leads Legacy Live with precision and energy—handpicking every band member and fine-tuning every detail. The result is a high-energy, high-glamour show that spans from Celia Cruz to Dua Lipa, tailored to thrill any crowd.\n\nTrusted by luxury clients and event pros alike, Jacin delivers not just music—but an experience that feels effortless, elegant, and electric.`}
+              {`Jacin Nagao is the powerhouse behind Legacy Live—a world-class band built to deliver unforgettable performances at high-end weddings, corporate galas, and private events. As a multi-instrumentalist and veteran bandleader, Jacin brings decades of touring experience, unmatched versatility, and an instinct for packing dance floors.\n\nEqually skilled on guitar, saxophone, and vocals, Jacin has toured globally with artists like Ricky Martin, Enrique Iglesias, Flo Rida, Joss Stone, and Jon Secada. His deep musical training and showmanship turn every event into a top-tier production.`}
             </p>
           </div>
         </div>
@@ -1338,7 +1338,7 @@ export default function LuxuryLiveEntertainment() {
       </section>
 
       {/* Enhanced Testimonials Section */}
-      <section id="reviews" className="relative py-24 px-6 overflow-hidden">
+      <section id="reviews" className="relative py-24 px-2 md:px-6 overflow-hidden">
         {/* Enhanced Video Background */}
         <div className="absolute inset-0 z-0">
           <video
@@ -1370,7 +1370,7 @@ export default function LuxuryLiveEntertainment() {
             </p>
           </div>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8">
             {testimonials.map((testimonial, index) => {
               const isVisible = visibleReviews.has(index)
               const colorIndex = index % reviewColors.length
@@ -1381,7 +1381,7 @@ export default function LuxuryLiveEntertainment() {
                   key={index}
                   ref={(el) => { reviewRefs.current[index] = el; }}
                   data-review-index={index}
-                  className={`group relative p-8 bg-charcoal-800/30 backdrop-blur-sm border border-stone-700/30 hover:border-gold-500/30 transition-all duration-1000 transform cursor-default ${
+                  className={`group relative p-4 md:p-8 bg-charcoal-800/30 backdrop-blur-sm border border-stone-700/30 hover:border-gold-500/30 transition-all duration-1000 transform cursor-default ${
                     isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-16"
                   } hover:scale-105 hover:-translate-y-2`}
                   style={{
@@ -1398,40 +1398,40 @@ export default function LuxuryLiveEntertainment() {
                   }}
                 >
                   {/* Quote Icon */}
-                  <div className="absolute -top-4 left-8">
+                  <div className="absolute -top-3 md:-top-4 left-4 md:left-8">
                     <div
-                      className="w-8 h-8 rounded-full flex items-center justify-center transition-all duration-500 group-hover:scale-110"
+                      className="w-6 h-6 md:w-8 md:h-8 rounded-full flex items-center justify-center transition-all duration-500 group-hover:scale-110"
                       style={{ backgroundColor: accentColor }}
                     >
-                      <Quote className="w-4 h-4 text-charcoal-950" />
+                      <Quote className="w-3 h-3 md:w-4 md:h-4 text-charcoal-950" />
                     </div>
                   </div>
 
                   {/* Stars */}
-                  <div className="flex mb-6 mt-4">
+                  <div className="flex mb-4 md:mb-6 mt-2 md:mt-4">
                     {[...Array(testimonial.rating)].map((_, i) => (
                       <Star
                         key={i}
-                        className="w-5 h-5 text-gold-400 fill-current transition-all duration-300 group-hover:scale-110"
+                        className="w-4 h-4 md:w-5 md:h-5 text-gold-400 fill-current transition-all duration-300 group-hover:scale-110"
                         style={{ animationDelay: `${i * 0.1}s` }}
                       />
                     ))}
                   </div>
 
                   {/* Quote */}
-                  <blockquote className="text-stone-300 leading-relaxed mb-6 font-light text-lg group-hover:text-stone-200 transition-colors duration-500">
+                  <blockquote className="text-stone-300 leading-snug md:leading-relaxed mb-4 md:mb-6 font-light text-base md:text-lg group-hover:text-stone-200 transition-colors duration-500">
                     "{testimonial.quote}"
                   </blockquote>
 
                   {/* Author */}
-                  <div className="border-t border-stone-700/50 pt-6">
+                  <div className="border-t border-stone-700/50 pt-4 md:pt-6">
                     <div
-                      className="font-serif text-lg mb-1 transition-colors duration-500 group-hover:text-gold-400"
+                      className="font-serif text-base md:text-lg mb-1 transition-colors duration-500 group-hover:text-gold-400"
                       style={{ color: accentColor }}
                     >
                       {testimonial.name}
                     </div>
-                    <div className="text-stone-500 text-sm font-light tracking-wide">{testimonial.event}</div>
+                    <div className="text-stone-500 text-xs md:text-sm font-light tracking-wide">{testimonial.event}</div>
                   </div>
 
                   {/* Hover Glow Effect */}
@@ -1514,18 +1514,18 @@ export default function LuxuryLiveEntertainment() {
             </div>
 
             {/* Enhanced Contact Form */}
-            <div className="bg-black/40 backdrop-blur-xl border border-stone-800/50 p-8 lg:p-12 animate-in fade-in slide-in-from-bottom duration-1000 delay-700">
-              <div className="mb-8">
-                <h3 className="text-3xl font-serif mb-4 text-stone-50">
+            <div className="bg-black/40 backdrop-blur-xl border border-stone-800/50 p-4 md:p-8 lg:p-12 animate-in fade-in slide-in-from-bottom duration-1000 delay-700">
+              <div className="mb-6 md:mb-8">
+                <h3 className="text-2xl md:text-3xl font-serif mb-3 md:mb-4 text-stone-50">
                   <span className="text-gold-400 italic font-light">BRING THE HEAT</span>
                 </h3>
-                <p className="text-stone-400 font-light">
+                <p className="text-base md:text-lg text-stone-400 font-light">
                   Tell us about your event and let's create something extraordinary together.
                 </p>
               </div>
 
-              <form onSubmit={handleFormSubmit} className="space-y-6">
-                <div className="grid md:grid-cols-2 gap-6">
+              <form onSubmit={handleFormSubmit} className="max-w-sm md:max-w-none mx-auto space-y-4 md:space-y-6">
+                <div className="grid md:grid-cols-2 gap-4 md:gap-6">
                   <div className="group">
                     <div className="relative">
                       <User className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-stone-500 group-focus-within:text-gold-400 transition-colors duration-300" />
@@ -1552,7 +1552,7 @@ export default function LuxuryLiveEntertainment() {
                   </div>
                 </div>
 
-                <div className="grid md:grid-cols-2 gap-6">
+                <div className="grid md:grid-cols-2 gap-4 md:gap-6">
                   <div className="group">
                     <div className="relative">
                       <Phone className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-stone-500 group-focus-within:text-gold-400 transition-colors duration-300" />
@@ -1579,7 +1579,7 @@ export default function LuxuryLiveEntertainment() {
                   </div>
                 </div>
 
-                <div className="grid md:grid-cols-2 gap-6">
+                <div className="grid md:grid-cols-2 gap-4 md:gap-6">
                   <div className="group">
                     <div className="relative">
                       <Music className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-stone-500 group-focus-within:text-gold-400 transition-colors duration-300" />
@@ -1612,7 +1612,7 @@ export default function LuxuryLiveEntertainment() {
                   </div>
                 </div>
 
-                <div className="grid md:grid-cols-2 gap-6">
+                <div className="grid md:grid-cols-2 gap-4 md:gap-6">
                   <div className="group">
                     <div className="relative">
                       <Building className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-stone-500 group-focus-within:text-gold-400 transition-colors duration-300" />
