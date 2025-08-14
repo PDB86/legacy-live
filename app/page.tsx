@@ -47,6 +47,15 @@ export default function LuxuryLiveEntertainment() {
     { left: number; top: number; delay: number; duration: number }[]
   >([]);
 
+  // Drag scrolling state
+  const [isDragging, setIsDragging] = useState(false)
+  const [dragStartX, setDragStartX] = useState(0)
+  const [dragStartScrollLeft, setDragStartScrollLeft] = useState(0)
+  const carouselContainerRef = useRef<HTMLDivElement>(null)
+  
+  // Portfolio grid modal state
+  const [isPortfolioGridOpen, setIsPortfolioGridOpen] = useState(false)
+
   const portfolioImages = [
     { id: 1, alt: "Golden Hour Groove", src: "/PARTY_BAND_1.webp" },
     { id: 2, alt: "Live in the Moment", src: "/PARTY_BAND_2.webp" },
@@ -163,6 +172,64 @@ export default function LuxuryLiveEntertainment() {
     window.addEventListener("keydown", handleKeyDown)
     return () => window.removeEventListener("keydown", handleKeyDown)
   }, [selectedImageIdx, portfolioImages.length])
+
+  // Debug modal state
+  useEffect(() => {
+    if (selectedImageIdx !== null) {
+      console.log('Modal opened with selectedImageIdx:', selectedImageIdx);
+      console.log('Image data:', portfolioImages[selectedImageIdx]);
+      console.log('Image src:', portfolioImages[selectedImageIdx]?.src);
+    }
+  }, [selectedImageIdx, portfolioImages]);
+
+  // Drag scrolling handlers
+  const handleMouseDown = (e: React.MouseEvent) => {
+    if (!carouselContainerRef.current) return;
+    
+    setIsDragging(true);
+    setDragStartX(e.pageX - carouselContainerRef.current.offsetLeft);
+    setDragStartScrollLeft(carouselContainerRef.current.scrollLeft);
+    
+    // Prevent text selection during drag
+    e.preventDefault();
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!isDragging || !carouselContainerRef.current) return;
+    
+    const x = e.pageX - carouselContainerRef.current.offsetLeft;
+    const walk = (x - dragStartX) * 2; // Scroll speed multiplier
+    carouselContainerRef.current.scrollLeft = dragStartScrollLeft - walk;
+  };
+
+  const handleMouseUp = () => {
+    setIsDragging(false);
+  };
+
+  const handleMouseLeave = () => {
+    setIsDragging(false);
+  };
+
+  // Touch handlers for mobile
+  const handleTouchStart = (e: React.TouchEvent) => {
+    if (!carouselContainerRef.current) return;
+    
+    setIsDragging(true);
+    setDragStartX(e.touches[0].pageX - carouselContainerRef.current.offsetLeft);
+    setDragStartScrollLeft(carouselContainerRef.current.scrollLeft);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    if (!isDragging || !carouselContainerRef.current) return;
+    
+    const x = e.touches[0].pageX - carouselContainerRef.current.offsetLeft;
+    const walk = (x - dragStartX) * 2; // Scroll speed multiplier
+    carouselContainerRef.current.scrollLeft = dragStartScrollLeft - walk;
+  };
+
+  const handleTouchEnd = () => {
+    setIsDragging(false);
+  };
 
   const handleFormSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -542,11 +609,12 @@ export default function LuxuryLiveEntertainment() {
                             src="https://player.vimeo.com/video/1098987499?h=3f109ec64e&title=0&byline=0&portrait=0"
                             frameBorder="0"
                             allow="autoplay; fullscreen; picture-in-picture"
-                            style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%" }}
+                            allowFullScreen
+                            style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", zIndex: 2 }}
                             title="DJ BAM PROMO"
                           />
                         </div>
-                        <div className="absolute inset-0 bg-gradient-to-t from-charcoal-950/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                        <div className="absolute inset-0 bg-gradient-to-t from-charcoal-950/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" style={{ pointerEvents: "none", zIndex: 1 }}></div>
                       </div>
                     )}
                     {format.id === "dj-fever" && (
@@ -571,11 +639,12 @@ export default function LuxuryLiveEntertainment() {
                             src="https://player.vimeo.com/video/1098987561?h=852b52e54f&title=0&byline=0&portrait=0"
                             frameBorder="0"
                             allow="autoplay; fullscreen; picture-in-picture"
-                            style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%" }}
+                            allowFullScreen
+                            style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", zIndex: 2 }}
                             title="DJ FEVER PROMO"
                           />
                         </div>
-                        <div className="absolute inset-0 bg-gradient-to-t from-charcoal-950/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                        <div className="absolute inset-0 bg-gradient-to-t from-charcoal-950/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" style={{ pointerEvents: "none", zIndex: 1 }}></div>
                       </div>
                     )}
                     {format.id === "dj-tony" && (
@@ -600,11 +669,12 @@ export default function LuxuryLiveEntertainment() {
                             src="https://player.vimeo.com/video/1098987612?h=c0abf2ce95&title=0&byline=0&portrait=0"
                             frameBorder="0"
                             allow="autoplay; fullscreen; picture-in-picture"
-                            style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%" }}
+                            allowFullScreen
+                            style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", zIndex: 2 }}
                             title="DJ TONY PROMO"
                           />
                         </div>
-                        <div className="absolute inset-0 bg-gradient-to-t from-charcoal-950/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                        <div className="absolute inset-0 bg-gradient-to-t from-charcoal-950/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" style={{ pointerEvents: "none", zIndex: 1 }}></div>
                       </div>
                     )}
                     {format.id === "latin-band" && (
@@ -629,11 +699,12 @@ export default function LuxuryLiveEntertainment() {
                             src="https://player.vimeo.com/video/1098987357?h=443ed6f06e&title=0&byline=0&portrait=0"
                             frameBorder="0"
                             allow="autoplay; fullscreen; picture-in-picture"
-                            style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%" }}
+                            allowFullScreen
+                            style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", zIndex: 2 }}
                             title="LATIN BAND PROMO"
                           />
                         </div>
-                        <div className="absolute inset-0 bg-gradient-to-t from-charcoal-950/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                        <div className="absolute inset-0 bg-gradient-to-t from-charcoal-950/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" style={{ pointerEvents: "none", zIndex: 1 }}></div>
                       </div>
                     )}
                     {format.id === "party-band" && (
@@ -658,11 +729,12 @@ export default function LuxuryLiveEntertainment() {
                             src="https://player.vimeo.com/video/1098987411?h=c095a6fa6e&title=0&byline=0&portrait=0"
                             frameBorder="0"
                             allow="autoplay; fullscreen; picture-in-picture"
-                            style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%" }}
+                            allowFullScreen
+                            style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", zIndex: 2 }}
                             title="PARTY BAND PROMO"
                           />
                         </div>
-                        <div className="absolute inset-0 bg-gradient-to-t from-charcoal-950/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                        <div className="absolute inset-0 bg-gradient-to-t from-charcoal-950/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" style={{ pointerEvents: "none", zIndex: 1 }}></div>
                       </div>
                     )}
                   </div>
@@ -752,11 +824,29 @@ export default function LuxuryLiveEntertainment() {
 
           {/* Enhanced Single Carousel */}
           <div className="relative mb-12 overflow-hidden">
-            <div className="flex animate-scroll-left hover:pause">
+            <div 
+              ref={carouselContainerRef}
+              className="flex animate-scroll-left hover:pause overflow-x-auto overflow-y-hidden scrollbar-hide snap-x snap-mandatory carousel-scroll"
+              onMouseDown={handleMouseDown}
+              onMouseMove={handleMouseMove}
+              onMouseUp={handleMouseUp}
+              onMouseLeave={handleMouseLeave}
+              onTouchStart={handleTouchStart}
+              onTouchMove={handleTouchMove}
+              onTouchEnd={handleTouchEnd}
+            >
               {portfolioImages.map((item, idx) => (
                 <div
                   key={`carousel-${item.id}`}
-                  onClick={() => { console.log('Carousel image clicked, idx:', idx); setSelectedImageIdx(idx); }}
+                  onClick={() => { 
+                    // Only open modal if not dragging
+                    if (!isDragging) {
+                      console.log('Carousel image clicked, idx:', idx); 
+                      console.log('Image src:', item.src);
+                      console.log('Image alt:', item.alt);
+                      setSelectedImageIdx(idx); 
+                    }
+                  }}
                   className="flex-shrink-0 w-[600px] h-[400px] md:w-[800px] md:h-[540px] mx-6 bg-charcoal-800/30 backdrop-blur-sm border-2 border-stone-700/30 overflow-hidden transition-all duration-700 transform hover:scale-110 hover:-translate-y-4 cursor-pointer group relative shadow-2xl hover:shadow-gold-500/20"
                   style={{
                     boxShadow: "0 20px 40px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.05)",
@@ -783,7 +873,12 @@ export default function LuxuryLiveEntertainment() {
               {portfolioImages.map((item, idx) => (
                 <div
                   key={`carousel-dup-${item.id}`}
-                  onClick={() => setSelectedImageIdx(idx)}
+                  onClick={() => {
+                    // Only open modal if not dragging
+                    if (!isDragging) {
+                      setSelectedImageIdx(idx);
+                    }
+                  }}
                   className="flex-shrink-0 w-[600px] h-[400px] md:w-[800px] md:h-[540px] mx-6 bg-charcoal-800/30 backdrop-blur-sm border-2 border-stone-700/30 overflow-hidden transition-all duration-700 transform hover:scale-110 hover:-translate-y-4 cursor-pointer group relative shadow-2xl hover:shadow-gold-500/20"
                   style={{
                     boxShadow: "0 20px 40px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.05)",
@@ -814,6 +909,7 @@ export default function LuxuryLiveEntertainment() {
             <Button
               variant="outline"
               size="lg"
+              onClick={() => setIsPortfolioGridOpen(true)}
               className="mx-auto px-10 bg-gradient-to-r from-gold-500 to-gold-600 hover:from-gold-400 hover:to-gold-500 text-charcoal-950 font-medium py-4 text-lg transition-all duration-500 transform hover:scale-110 hover:rotate-1 hover:shadow-2xl hover:shadow-gold-500/40 rounded-xl border-2 border-gold-500 hover:border-gold-400 tracking-wide uppercase group shadow-lg shadow-gold-500/20 hover:shadow-gold-400/40 focus:ring-4 focus:ring-gold-400/40"
             >
               <span className="relative z-10">View Complete Portfolio</span>
@@ -1499,43 +1595,128 @@ export default function LuxuryLiveEntertainment() {
       </footer>
 
       <Dialog open={selectedImageIdx !== null} onOpenChange={() => setSelectedImageIdx(null)}>
-        <DialogContent className="bg-black/80 border-0 shadow-none max-w-6xl p-0 flex flex-col items-center justify-center relative">
+        <DialogContent className="bg-black/95 border-0 shadow-none max-w-7xl w-[95vw] h-[95vh] p-0 flex flex-col items-center justify-center relative z-[9999] !z-[9999] overflow-hidden" style={{ position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>
           <DialogTitle className="sr-only">Image Preview</DialogTitle>
           <DialogDescription className="sr-only">Preview of the selected portfolio image</DialogDescription>
           {selectedImageIdx !== null && (
             <>
+
+              
               <button
                 onClick={() => setSelectedImageIdx(null)}
-                className="absolute top-4 right-4 z-20 p-2 rounded-full bg-black/60 hover:bg-black/80 text-white transition-colors"
+                className="absolute top-6 right-6 z-30 p-3 rounded-full bg-black/80 hover:bg-black text-white transition-all duration-300 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-gold-400/50"
                 aria-label="Close preview"
               >
-                <CloseIcon className="w-7 h-7" />
+                <CloseIcon className="w-6 h-6" />
               </button>
-              <div className="flex items-center justify-center w-full h-full">
+              
+              {/* Main Image Container */}
+              <div className="relative w-full h-full flex items-center justify-center p-8 min-h-0">
                 <img
                   src={portfolioImages[selectedImageIdx].src}
                   alt={portfolioImages[selectedImageIdx].alt}
-                  className="max-w-[90vw] max-h-[90vh] object-contain rounded-lg shadow-2xl"
+                  className="max-w-full max-h-full object-contain rounded-lg shadow-2xl select-none w-auto h-auto"
+                  draggable={false}
+                  onLoad={() => console.log('Image loaded successfully:', portfolioImages[selectedImageIdx].src)}
+                  onError={(e) => {
+                    console.error('Image failed to load:', portfolioImages[selectedImageIdx].src);
+                    console.error('Error details:', e);
+                    e.currentTarget.style.display = 'none';
+                  }}
                 />
-                <button
-                  onClick={() => setSelectedImageIdx((selectedImageIdx - 1 + portfolioImages.length) % portfolioImages.length)}
-                  className="hidden md:flex items-center justify-center absolute left-2 top-1/2 -translate-y-1/2 z-10 p-2 rounded-full bg-black/40 hover:bg-black/70 text-white transition-colors"
-                  aria-label="Previous image"
-                >
-                  <svg width="32" height="32" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7"/></svg>
-                </button>
-                <button
-                  onClick={() => setSelectedImageIdx((selectedImageIdx + 1) % portfolioImages.length)}
-                  className="hidden md:flex items-center justify-center absolute right-2 top-1/2 -translate-y-1/2 z-10 p-2 rounded-full bg-black/40 hover:bg-black/70 text-white transition-colors"
-                  aria-label="Next image"
-                >
-                  <svg width="32" height="32" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg>
-                </button>
+                
+
+                
+                {/* Image Info Overlay */}
+                <div className="absolute bottom-8 left-8 right-8 text-center text-white">
+                  <div className="text-xl font-serif text-gold-400 mb-2 drop-shadow-lg">
+                    {portfolioImages[selectedImageIdx].alt}
+                  </div>
+                  <div className="text-sm text-stone-300 uppercase tracking-wider drop-shadow-lg">
+                    {selectedImageIdx + 1} of {portfolioImages.length}
+                  </div>
+                </div>
               </div>
+
+              {/* Navigation Arrows */}
+              <button
+                onClick={() => setSelectedImageIdx((selectedImageIdx - 1 + portfolioImages.length) % portfolioImages.length)}
+                className="absolute left-6 top-1/2 -translate-y-1/2 z-20 p-4 rounded-full bg-black/80 hover:bg-black text-white transition-all duration-300 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-gold-400/50 group"
+                aria-label="Previous image"
+              >
+                <svg width="32" height="32" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" className="group-hover:scale-110 transition-transform duration-300">
+                  <path d="M15 19l-7-7 7-7"/>
+                </svg>
+              </button>
+              
+              <button
+                onClick={() => setSelectedImageIdx((selectedImageIdx + 1) % portfolioImages.length)}
+                className="absolute right-6 top-1/2 -translate-y-1/2 z-20 p-4 rounded-full bg-black/80 hover:bg-black text-white transition-all duration-300 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-gold-400/50 group"
+                aria-label="Next image"
+              >
+                <svg width="32" height="32" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" className="group-hover:scale-110 transition-transform duration-300">
+                  <path d="M9 5l7 7-7 7"/>
+                </svg>
+              </button>
             </>
           )}
         </DialogContent>
       </Dialog>
+
+      {/* Portfolio Grid Modal */}
+      {isPortfolioGridOpen && (
+        <div 
+          className="fixed inset-0 bg-black/80 z-[9999] flex items-center justify-center p-4"
+          onClick={() => setIsPortfolioGridOpen(false)}
+        >
+          <div 
+            className="bg-black/95 border border-stone-700/30 rounded-lg max-w-7xl w-full h-[90vh] overflow-y-auto relative"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Header */}
+            <div className="flex items-center justify-between mb-6 px-6">
+              <h2 className="text-3xl md:text-4xl font-serif text-white">
+                <span className="text-gold-400">Complete </span>
+                <span>Portfolio</span>
+              </h2>
+              <button
+                onClick={() => setIsPortfolioGridOpen(false)}
+                className="p-3 rounded-full bg-black/80 hover:bg-black text-white transition-all duration-300 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-gold-400/50"
+                aria-label="Close portfolio grid"
+              >
+                <CloseIcon className="w-6 h-6" />
+              </button>
+            </div>
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6 px-6 pb-6">
+              {portfolioImages.map((item, idx) => (
+                <div
+                  key={`grid-${item.id}`}
+                  onClick={() => {
+                    setSelectedImageIdx(idx);
+                    setIsPortfolioGridOpen(false);
+                  }}
+                  className="group cursor-pointer transition-all duration-300 transform hover:scale-105 hover:-translate-y-2"
+                >
+                  <div className="relative aspect-square bg-charcoal-800/30 border border-stone-700/30 overflow-hidden rounded-lg shadow-lg hover:shadow-gold-500/20 transition-all duration-300">
+                    <img
+                      src={item.src}
+                      alt={item.alt}
+                      className="w-full h-full object-cover transition-all duration-300 group-hover:scale-110"
+                      draggable={false}
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-charcoal-950/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                    <div className="absolute bottom-3 left-3 right-3 text-white opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
+                      <div className="text-sm font-medium truncate">{item.alt}</div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+
+      
     </div>
   )
 }
