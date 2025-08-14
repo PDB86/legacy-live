@@ -6,7 +6,7 @@ import { useState, useEffect, useRef } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
-import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog"
+import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog"
 import {
   Mail,
   Phone,
@@ -48,11 +48,31 @@ export default function LuxuryLiveEntertainment() {
   >([]);
 
   const portfolioImages = [
-    { id: 1, alt: "Portfolio Highlight 1", src: "/PH1.webp" },
-    { id: 2, alt: "Portfolio Highlight 2", src: "/PH2.webp" },
-    { id: 3, alt: "Portfolio Highlight 3", src: "/PH3.webp" },
-    { id: 4, alt: "Portfolio Highlight 4", src: "/PH4.webp" },
-    { id: 5, alt: "Portfolio Highlight 5", src: "/PH5.webp" },
+    { id: 1, alt: "Golden Hour Groove", src: "/PARTY_BAND_1.webp" },
+    { id: 2, alt: "Live in the Moment", src: "/PARTY_BAND_2.webp" },
+    { id: 3, alt: "Dance All Night", src: "/PARTY_BAND_3.webp" },
+    { id: 4, alt: "Under the Lights", src: "/PARTY_BAND_4.webp" },
+    { id: 5, alt: "Evening in Motion", src: "/PARTY_BAND_5.webp" },
+    { id: 6, alt: "Pulse of the Party", src: "/PARTY_BAND_6.webp" },
+    { id: 7, alt: "Spotlight Magic", src: "/PARTY_BAND_7.webp" },
+    { id: 8, alt: "Vibe in Bloom", src: "/PARTY_BAND_8.webp" },
+    { id: 9, alt: "Latin Groove Live", src: "/LATIN_BAND_1.webp" },
+    { id: 10, alt: "Tropical Heat", src: "/LATIN_BAND_2.webp" },
+    { id: 11, alt: "Salsa in the City", src: "/LATIN_BAND_3.webp" },
+    { id: 12, alt: "Fiesta Under the Stars", src: "/LATIN_BAND_4.webp" },
+    { id: 13, alt: "Havana Nights", src: "/LATIN_BAND_5.webp" },
+    { id: 14, alt: "Mambo Magic", src: "/LATIN_BAND_6.webp" },
+    { id: 15, alt: "Sunset Salsa", src: "/LATIN_BAND_7.webp" },
+    { id: 16, alt: "Rumba & Romance", src: "/LATIN_BAND_8.webp" },
+    { id: 17, alt: "Tropical Vibes", src: "/LATIN_BAND_9.webp" },
+    { id: 18, alt: "Spin the Night", src: "/DJ_BAM_1.webp" },
+    { id: 19, alt: "Mix Master Magic", src: "/DJ_BAM_2.webp" },
+    { id: 20, alt: "Dance Floor Fever", src: "/DJ_BAM_3.webp" },
+    { id: 21, alt: "Nightwave", src: "/DJ_BAM_4.webp" },
+    { id: 22, alt: "Groove Command", src: "/DJ_FEVER_1.webp" },
+    { id: 23, alt: "Sound Surge", src: "/DJ_FEVER_2.webp" },
+    { id: 24, alt: "Pulse Control", src: "/DJ_FEVER_3.webp" },
+    { id: 25, alt: "Rhythm Reactor", src: "/DJ_TONY_1.webp" },
   ];
 
   useEffect(() => {
@@ -374,10 +394,7 @@ export default function LuxuryLiveEntertainment() {
               transform: `scale(${1 + scrollY * 0.0002}) translateY(${scrollY * 0.3}px)`,
             }}
           >
-            <source
-              src="/deck_1.mp4"
-              type="video/mp4"
-            />
+            <source src="/deck_1.webm" type="video/webm" />
           </video>
           <div className="absolute inset-0 bg-gradient-to-b from-charcoal-950/30 via-charcoal-950/50 to-charcoal-950/60"></div>
 
@@ -739,7 +756,7 @@ export default function LuxuryLiveEntertainment() {
               {portfolioImages.map((item, idx) => (
                 <div
                   key={`carousel-${item.id}`}
-                  onClick={() => setSelectedImageIdx(idx)}
+                  onClick={() => { console.log('Carousel image clicked, idx:', idx); setSelectedImageIdx(idx); }}
                   className="flex-shrink-0 w-[600px] h-[400px] md:w-[800px] md:h-[540px] mx-6 bg-charcoal-800/30 backdrop-blur-sm border-2 border-stone-700/30 overflow-hidden transition-all duration-700 transform hover:scale-110 hover:-translate-y-4 cursor-pointer group relative shadow-2xl hover:shadow-gold-500/20"
                   style={{
                     boxShadow: "0 20px 40px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.05)",
@@ -755,7 +772,7 @@ export default function LuxuryLiveEntertainment() {
                     <div className="absolute inset-0 bg-gradient-to-br from-gold-500/10 via-transparent to-gold-600/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
                     <div className="absolute bottom-8 left-8 right-8 text-stone-100 text-lg font-light opacity-0 group-hover:opacity-100 transition-all duration-700 tracking-wide transform translate-y-6 group-hover:translate-y-0 drop-shadow-lg">
                       <div className="text-xl font-serif text-gold-400 mb-2">{item.alt}</div>
-                      <div className="text-sm text-stone-300 uppercase tracking-wider">Premium Event Experience</div>
+                      <div className="text-sm text-stone-300 uppercase tracking-wider">LegacyLive Experience</div>
                     </div>
                     {/* Enhanced glow effect */}
                     <div className="absolute inset-0 opacity-0 group-hover:opacity-20 transition-opacity duration-700 bg-gradient-to-r from-gold-400/20 via-transparent to-gold-600/20 blur-xl"></div>
@@ -782,7 +799,7 @@ export default function LuxuryLiveEntertainment() {
                     <div className="absolute inset-0 bg-gradient-to-br from-gold-500/10 via-transparent to-gold-600/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
                     <div className="absolute bottom-8 left-8 right-8 text-stone-100 text-lg font-light opacity-0 group-hover:opacity-100 transition-all duration-700 tracking-wide transform translate-y-6 group-hover:translate-y-0 drop-shadow-lg">
                       <div className="text-xl font-serif text-gold-400 mb-2">{item.alt}</div>
-                      <div className="text-sm text-stone-300 uppercase tracking-wider">Premium Event Experience</div>
+                      <div className="text-sm text-stone-300 uppercase tracking-wider">LegacyLive Experience</div>
                     </div>
                     {/* Enhanced glow effect */}
                     <div className="absolute inset-0 opacity-0 group-hover:opacity-20 transition-opacity duration-700 bg-gradient-to-r from-gold-400/20 via-transparent to-gold-600/20 blur-xl"></div>
@@ -1077,7 +1094,7 @@ export default function LuxuryLiveEntertainment() {
               transform: `translateY(${scrollY * 0.1}px) scale(1.1)`,
             }}
           >
-            <source src="/deck.webm" type="video/webm" />
+            <source src="/deck_1.webm" type="video/webm" />
           </video>
         </div>
 
@@ -1484,6 +1501,7 @@ export default function LuxuryLiveEntertainment() {
       <Dialog open={selectedImageIdx !== null} onOpenChange={() => setSelectedImageIdx(null)}>
         <DialogContent className="bg-black/80 border-0 shadow-none max-w-6xl p-0 flex flex-col items-center justify-center relative">
           <DialogTitle className="sr-only">Image Preview</DialogTitle>
+          <DialogDescription className="sr-only">Preview of the selected portfolio image</DialogDescription>
           {selectedImageIdx !== null && (
             <>
               <button
@@ -1494,6 +1512,11 @@ export default function LuxuryLiveEntertainment() {
                 <CloseIcon className="w-7 h-7" />
               </button>
               <div className="flex items-center justify-center w-full h-full">
+                <img
+                  src={portfolioImages[selectedImageIdx].src}
+                  alt={portfolioImages[selectedImageIdx].alt}
+                  className="max-w-[90vw] max-h-[90vh] object-contain rounded-lg shadow-2xl"
+                />
                 <button
                   onClick={() => setSelectedImageIdx((selectedImageIdx - 1 + portfolioImages.length) % portfolioImages.length)}
                   className="hidden md:flex items-center justify-center absolute left-2 top-1/2 -translate-y-1/2 z-10 p-2 rounded-full bg-black/40 hover:bg-black/70 text-white transition-colors"
@@ -1501,11 +1524,6 @@ export default function LuxuryLiveEntertainment() {
                 >
                   <svg width="32" height="32" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7"/></svg>
                 </button>
-                <img
-                  src={portfolioImages[selectedImageIdx].src}
-                  alt={portfolioImages[selectedImageIdx].alt}
-                  className="max-w-[90vw] max-h-[90vh] object-contain rounded-lg shadow-2xl"
-                />
                 <button
                   onClick={() => setSelectedImageIdx((selectedImageIdx + 1) % portfolioImages.length)}
                   className="hidden md:flex items-center justify-center absolute right-2 top-1/2 -translate-y-1/2 z-10 p-2 rounded-full bg-black/40 hover:bg-black/70 text-white transition-colors"
