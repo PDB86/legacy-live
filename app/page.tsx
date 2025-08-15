@@ -926,7 +926,9 @@ export default function LuxuryLiveEntertainment() {
               <div className="w-20 h-0.5 bg-gold-400 mb-8 mx-auto md:mx-0"></div>
             </div>
             <p className="text-lg md:text-xl font-light text-stone-300 leading-relaxed max-w-2xl mx-auto md:mx-0 whitespace-pre-line">
-              {`Jacin Nagao is the powerhouse behind Legacy Live—a world-class band built to deliver unforgettable performances at high-end weddings, corporate galas, and private events. As a multi-instrumentalist and veteran bandleader, Jacin brings decades of touring experience, unmatched versatility, and an instinct for packing dance floors.\n\nEqually skilled on guitar, saxophone, and vocals, Jacin has toured globally with artists like Ricky Martin, Enrique Iglesias, Flo Rida, Joss Stone, and Jon Secada. His deep musical training and showmanship turn every event into a top-tier production.`}
+              {`Jacin (Jason) Paul is the powerhouse behind Legacy Live—a world-class band delivering unforgettable performances at high-end weddings, corporate galas, and private events. A multi-instrumentalist and veteran bandleader, Jacin brings decades of touring experience, unmatched versatility, and an instinct for packing dance floors. With over 25 years in the event industry, he spent seven years with the acclaimed LIBIDO band and currently performs with the renowned 'Miami Beats'.
+
+Equally skilled on guitar, saxophone, and vocals, Jacin has toured the globe with artists such as Ricky Martin, Enrique Iglesias, Flo Rida, Joss Stone, and Jon Secada. His combination of deep musical training and dynamic showmanship transforms every event into a top-tier production.`}
             </p>
           </div>
         </div>
@@ -1749,7 +1751,7 @@ export default function LuxuryLiveEntertainment() {
           {/* Copyright */}
           <div className="border-t border-stone-800/50 pt-8 text-center">
             <p className="text-stone-500 font-light">
-              © 2024 Legacy Live Entertainment. All rights reserved. Crafted with passion for extraordinary events.
+              © 2025 Legacy Live Entertainment. All rights reserved. Crafted with passion for extraordinary events.
             </p>
           </div>
         </div>
