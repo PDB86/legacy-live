@@ -585,6 +585,7 @@ export default function LuxuryLiveEntertainment() {
               transform: `translateY(${scrollY * 0.1}px) scale(1.1)`,
             }}
           >
+            <source src="/deck_1.mp4" type="video/mp4" />
             <source src="/deck_1.webm" type="video/webm" />
           </video>
           <div className="absolute inset-0 bg-gradient-to-b from-charcoal-950/30 via-charcoal-950/50 to-charcoal-950/60"></div>
@@ -1361,6 +1362,7 @@ Equally skilled on guitar, saxophone, and vocals, Jacin has toured the globe wit
               transform: `translateY(${scrollY * 0.1}px) scale(1.1)`,
             }}
           >
+            <source src="/deck_1.mp4" type="video/mp4" />
             <source src="/deck_1.webm" type="video/webm" />
           </video>
         </div>
