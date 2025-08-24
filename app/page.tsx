@@ -1510,17 +1510,36 @@ Equally skilled on guitar, saxophone, and vocals, Jacin has toured the globe wit
                 <div className="text-stone-300 font-light text-sm uppercase tracking-wider mb-6">Follow Us</div>
                 <div className="flex space-x-8">
                   <Link
-                    href="#"
+                    href="https://www.instagram.com/legacyliveevents"
                     className="flex items-center text-stone-400 hover:text-gold-400 transition-all duration-500 font-light tracking-wide transform hover:scale-110 hover:-translate-y-1"
                   >
                     <Instagram className="w-5 h-5 mr-2" /> Instagram
                   </Link>
                   <Link
-                    href="#"
+                    href="https://www.facebook.com/LegacyLiveEvents"
                     className="flex items-center text-stone-400 hover:text-gold-400 transition-all duration-500 font-light tracking-wide transform hover:scale-110 hover:-translate-y-1"
                   >
                     <Facebook className="w-5 h-5 mr-2" /> Facebook
                   </Link>
+                  <a
+                    href="https://www.pinterest.com/legacyliveevents/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Pinterest"
+                    className="flex items-center text-stone-400 hover:text-gold-400 transition-all duration-500 font-light tracking-wide transform hover:scale-110 hover:-translate-y-1"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      width="20"
+                      height="20"
+                      aria-hidden="true"
+                      className="w-5 h-5 mr-2"
+                    >
+                      <path fill="currentColor" d="M12.04 2c-5.55 0-9.04 3.88-9.04 8.37 0 2.03.77 3.84 2.43 4.52.27.11.5 0 .58-.3.05-.2.18-.7.24-.91.08-.3.05-.4-.17-.66-.48-.56-.79-1.28-.79-2.3 0-2.96 2.22-5.61 5.77-5.61 3.15 0 4.88 1.93 4.88 4.51 0 3.38-1.5 6.23-3.72 6.23-1.23 0-2.15-1.02-1.85-2.27.35-1.47 1.03-3.06 1.03-4.13 0-.95-.51-1.75-1.56-1.75-1.24 0-2.23 1.28-2.23 3 0 1.09.37 1.82.37 1.82l-1.49 6.31c-.44 1.87-.07 4.16-.04 4.39.02.09.12.11.17.04.07-.1 1.04-1.51 1.37-2.91.09-.36.53-2.19.53-2.19.26.51 1.03.95 1.86.95 2.45 0 4.11-2.37 4.11-5.54 0-2.98-2.52-5.23-5.65-5.23z"/>
+                    </svg>
+                    Pinterest
+                  </a>
                 </div>
               </div>
             </div>
