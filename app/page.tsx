@@ -577,6 +577,9 @@ export default function LuxuryLiveEntertainment() {
             muted
             playsInline
             preload="auto"
+            onLoadStart={() => console.log('Video loading started')}
+            onCanPlay={() => console.log('Video can play')}
+            onError={(e) => console.error('Video error:', e)}
             className="absolute inset-0 w-full h-full object-cover opacity-20 transition-transform duration-300"
             style={{
               transform: `translateY(${scrollY * 0.1}px) scale(1.1)`,
@@ -1350,6 +1353,9 @@ Equally skilled on guitar, saxophone, and vocals, Jacin has toured the globe wit
             muted
             playsInline
             preload="auto"
+            onLoadStart={() => console.log('Video loading started')}
+            onCanPlay={() => console.log('Video can play')}
+            onError={(e) => console.error('Video error:', e)}
             className="absolute inset-0 w-full h-full object-cover opacity-20 transition-transform duration-300"
             style={{
               transform: `translateY(${scrollY * 0.1}px) scale(1.1)`,
