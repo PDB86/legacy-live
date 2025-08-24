@@ -576,9 +576,10 @@ export default function LuxuryLiveEntertainment() {
             loop
             muted
             playsInline
-            className="absolute inset-0 w-full h-full object-cover opacity-100 transition-all duration-1000"
+            preload="auto"
+            className="absolute inset-0 w-full h-full object-cover opacity-20 transition-transform duration-300"
             style={{
-              transform: `scale(${1 + scrollY * 0.0002}) translateY(${scrollY * 0.3}px)`,
+              transform: `translateY(${scrollY * 0.1}px) scale(1.1)`,
             }}
           >
             <source src="/deck_1.webm" type="video/webm" />
@@ -1348,6 +1349,7 @@ Equally skilled on guitar, saxophone, and vocals, Jacin has toured the globe wit
             loop
             muted
             playsInline
+            preload="auto"
             className="absolute inset-0 w-full h-full object-cover opacity-20 transition-transform duration-300"
             style={{
               transform: `translateY(${scrollY * 0.1}px) scale(1.1)`,
