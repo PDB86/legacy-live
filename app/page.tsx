@@ -434,44 +434,44 @@ export default function LuxuryLiveEntertainment() {
   const testimonials = [
     {
       quote:
-        "They elevated our wedding beyond our wildest dreams. The sophistication and energy were absolutely perfect.",
-      name: "Sofia Laurent",
+        "LegacyLive was exactly what we hoped for. They kept the timeline on track, played every song we requested, and had the dance floor moving without feeling forced. Several guests told us afterward how impressed they were with the band.",
+      name: "Laura C",
       event: "Private Estate Wedding, Hamptons",
       rating: 5,
     },
     {
       quote:
-        "Absolutely extraordinary. The dance floor was alive all evening. The most refined entertainment we've ever experienced.",
-      name: "Marcus & Jennifer Whitmore",
-      event: "Corporate Gala, Manhattan",
+        "Working with Jacin and the group was very straightforward. They were organized during planning and flexible when a couple of last-minute changes came up. On the night of the wedding, they handled everything smoothly and sounded great.",
+      name: "Eric & Monica T.",
+      event: "The Biltmore, Coral Gables",
       rating: 5,
     },
     {
       quote:
-        "DJ BAM brought an incredible energy while maintaining the elegance our event required. Simply outstanding.",
-      name: "Rachel Montgomery",
-      event: "Anniversary Celebration, Beverly Hills",
+        "The band made the reception flow naturally — cocktail hour, dinner, and dancing all felt seamless. Nothing felt overdone, and the music fit the mood perfectly. Guests of all ages ended up on the floor at some point, which says it all.",
+      name: "Jason R.",
+      event: "The Addison, Boca Raton",
       rating: 5,
     },
     {
       quote:
-        "The Latin Ensemble brought pure sophistication to our celebration. Guests are still raving about the performance.",
-      name: "Carlos & Maria Delacroix",
-      event: "Private Villa Party, Miami",
+        "I’ve been to a lot of weddings, and LegacyLive stood out for how professional they were. No long breaks, no technical hiccups, just consistent, solid music all night. The saxophone during cocktail hour was a nice touch.",
+      name: "Katherine P.",
+      event: "The Ritz-Carlton, Key Biscayne",
       rating: 5,
     },
     {
       quote:
-        "Professional, talented, and they understand how to create the perfect atmosphere. An unforgettable experience.",
-      name: "David Kensington",
-      event: "Product Launch, San Francisco",
+        "We didn’t want the entertainment to feel like a show — we wanted it to feel like part of the celebration. LegacyLive struck that balance perfectly. They read the room, played the right songs at the right times, and kept everything comfortable and fun.",
+      name: "Adriana & Luis G.",
+      event: "The Pérez Art Museum, Miami",
       rating: 5,
     },
     {
       quote:
-        "DJ FEVER transformed our corporate event into something truly special. The perfect blend of energy and elegance.",
-      name: "Amanda Richardson",
-      event: "Executive Retreat, Napa Valley",
+        "Communication was clear from the first call through the wedding night. Jacin was easy to reach, quick to answer questions, and the whole group delivered exactly what was promised. The music was excellent, and it really elevated the evening.",
+      name: "Mark S.",
+      event: "The Breakers, Palm Beach",
       rating: 5,
     },
   ]
