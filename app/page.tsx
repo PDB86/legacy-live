@@ -199,11 +199,11 @@ export default function LuxuryLiveEntertainment() {
     { id: 20, alt: "Fusion DJ EXP", src: "/fb9.png" },
     { id: 21, alt: "Fusion DJ EXP", src: "/fb10.png" },
     { id: 22, alt: "Fusion DJ EXP", src: "/fb11.png" },
-    { id: 24, alt: "Havana South", src: "/lb4.png" },
-    { id: 25, alt: "Havana South", src: "/lb5.png" },
-    { id: 26, alt: "Havana South", src: "/lb6.png" },
-    { id: 27, alt: "Havana South", src: "/lb10.png" },
-    { id: 28, alt: "Havana South", src: "/lb11.png" },
+    { id: 23, alt: "Havana South", src: "/lb4.png" },
+    { id: 24, alt: "Havana South", src: "/lb5.png" },
+    { id: 25, alt: "Havana South", src: "/lb6.png" },
+    { id: 26, alt: "Havana South", src: "/lb10.png" },
+    { id: 27, alt: "Havana South", src: "/lb11.png" },
   ];
 
   useEffect(() => {
@@ -438,14 +438,14 @@ export default function LuxuryLiveEntertainment() {
       quote:
         "LegacyLive was exactly what we hoped for. They kept the timeline on track, played every song we requested, and had the dance floor moving without feeling forced. Several guests told us afterward how impressed they were with the band.",
       name: "Laura C",
-      event: "Private Estate Wedding, Hamptons",
+      event: "JW Marriot, Marco Island",
       rating: 5,
     },
     {
       quote:
         "Working with Jacin and the group was very straightforward. They were organized during planning and flexible when a couple of last-minute changes came up. On the night of the wedding, they handled everything smoothly and sounded great.",
       name: "Eric & Monica T.",
-      event: "The Biltmore, Coral Gables",
+      event: "The Ringling Museum of Art, Sarasota",
       rating: 5,
     },
     {
@@ -457,7 +457,7 @@ export default function LuxuryLiveEntertainment() {
     },
     {
       quote:
-        "I’ve been to a lot of weddings, and LegacyLive stood out for how professional they were. No long breaks, no technical hiccups, just consistent, solid music all night. The saxophone during cocktail hour was a nice touch.",
+        "I’ve been to a lot of weddings, and LegacyLive stood out for how professional they were. No long breaks, no technical hiccups, just consistent, solid music all night. The saxophone during cocktail hour was a nice touch. Simply the best!",
       name: "Katherine P.",
       event: "The Ritz-Carlton, Key Biscayne",
       rating: 5,
@@ -473,7 +473,7 @@ export default function LuxuryLiveEntertainment() {
       quote:
         "Communication was clear from the first call through the wedding night. Jacin was easy to reach, quick to answer questions, and the whole group delivered exactly what was promised. The music was excellent, and it really elevated the evening.",
       name: "Mark S.",
-      event: "The Breakers, Palm Beach",
+      event: "The Gasparilla Inn, Boca Grande",
       rating: 5,
     },
   ]
