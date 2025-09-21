@@ -1120,8 +1120,8 @@ Equally skilled on guitar, saxophone, and vocals, Jacin has toured the globe wit
                 Custom
               </h3>
               <p className="text-sm md:text-base text-stone-400 leading-snug md:leading-relaxed font-light group-hover:text-stone-300 transition-colors duration-500">
-                Because every event is unique, Legacy Live delivers a tailor-made performance designed to meet your
-                specific needs and vision.
+              Because every event is unique, <br />
+              Legacy Live delivers a tailor-made performance designed to meet your vision.
               </p>
             </div>
 
@@ -1146,8 +1146,7 @@ Equally skilled on guitar, saxophone, and vocals, Jacin has toured the globe wit
                 Interactive
               </h3>
               <p className="text-sm md:text-base text-stone-400 leading-snug md:leading-relaxed font-light group-hover:text-stone-300 transition-colors duration-500">
-                Our performers are highly interactive, inviting guests to take part in a unique and memorable musical
-                experience that engages everyone.
+              Very often our performers step off the stage and onto the dancefloor creating a unique, interactive experience that draws every guest into the celebration.
               </p>
             </div>
 
@@ -1169,8 +1168,7 @@ Equally skilled on guitar, saxophone, and vocals, Jacin has toured the globe wit
                 International
               </h3>
               <p className="text-sm md:text-base text-stone-400 leading-snug md:leading-relaxed font-light group-hover:text-stone-300 transition-colors duration-500">
-                Fluent in multiple languages and performing diverse repertoires, we offer a versatile experience that
-                engages all audiences.
+              Our core repertoire is in English, <br /> but we can seamlessly incorporate Latin music or even provide a full Latin ensemble when desired.
               </p>
             </div>
 
@@ -1195,8 +1193,7 @@ Equally skilled on guitar, saxophone, and vocals, Jacin has toured the globe wit
                 Reliable
               </h3>
               <p className="text-sm md:text-base text-stone-400 leading-snug md:leading-relaxed font-light group-hover:text-stone-300 transition-colors duration-500">
-                We take our mission seriously: punctuality, professionalism, and attention to detail. Nothing is left up
-                to chance in our performances.
+              We take our mission seriously: Communication, professionalism, and attention to detail. Nothing is left up to chance in our performances.
               </p>
             </div>
 
@@ -1216,7 +1213,7 @@ Equally skilled on guitar, saxophone, and vocals, Jacin has toured the globe wit
                 Savoir-Faire
               </h3>
               <p className="text-sm md:text-base text-stone-400 leading-snug md:leading-relaxed font-light group-hover:text-stone-300 transition-colors duration-500">
-                The right song at the right time! Our expert control of the mood will take your guests from anticipation
+                The right song at the right time! <br /> Our expert control of the mood will take your guests from anticipation
                 to euphoria—a night they will never forget.
               </p>
             </div>
@@ -1236,8 +1233,7 @@ Equally skilled on guitar, saxophone, and vocals, Jacin has toured the globe wit
                 Passion
               </h3>
               <p className="text-sm md:text-base text-stone-400 leading-snug md:leading-relaxed font-light group-hover:text-stone-300 transition-colors duration-500">
-                Our artists' love for their craft shows not only in their explosive live energy, but also in the years
-                spent mastering their instruments and performance.
+              Our artists' love for their craft show in their explosive live energy. Passion you can feel, energy you can’t forget
               </p>
             </div>
           </div>
@@ -1347,33 +1343,10 @@ Equally skilled on guitar, saxophone, and vocals, Jacin has toured the globe wit
       </section>
 
       {/* Enhanced Testimonials Section */}
-      <section id="reviews" className="relative py-24 px-2 md:px-6 overflow-hidden">
-        {/* Enhanced Video Background */}
-        <div className="absolute inset-0 z-0">
-          <video
-            autoPlay
-            loop
-            muted
-            playsInline
-            preload="auto"
-            onLoadStart={() => console.log('Video loading started')}
-            onCanPlay={() => console.log('Video can play')}
-            onError={(e) => console.error('Video error:', e)}
-            className="absolute inset-0 w-full h-full object-cover opacity-20 transition-transform duration-300"
-            style={{
-              transform: `translateY(${scrollY * 0.1}px) scale(1.1)`,
-            }}
-          >
-            <source src="/deck_1.mp4" type="video/mp4" />
-            <source src="/deck_1.webm" type="video/webm" />
-          </video>
-        </div>
-
-        {/* Enhanced Overlay */}
-        <div className="absolute inset-0 z-10 bg-gradient-to-b from-charcoal-950/90 via-charcoal-950/95 to-charcoal-950/90"></div>
+      <section id="reviews" data-section="client-testimonials" className="relative py-24 px-2 md:px-6 overflow-hidden bg-gradient-to-b from-charcoal-950/90 via-charcoal-950/95 to-charcoal-950/90">
 
         {/* Content */}
-        <div className="container mx-auto max-w-7xl relative z-20">
+        <div className="container mx-auto max-w-7xl relative">
           <div className="text-center mb-20 animate-in fade-in slide-in-from-bottom duration-1000">
             <h2 className="text-4xl md:text-5xl lg:text-6xl font-serif mb-6 tracking-tight">
               <span className="text-stone-50">Client </span>
@@ -1547,7 +1520,7 @@ Equally skilled on guitar, saxophone, and vocals, Jacin has toured the globe wit
             </div>
 
             {/* Enhanced Contact Form */}
-            <div className="bg-black/40 backdrop-blur-xl border border-stone-800/50 p-4 md:p-8 lg:p-12 animate-in fade-in slide-in-from-bottom duration-1000 delay-700">
+            <div data-section="bring-the-heat-form" className="bg-black/40 backdrop-blur-xl border border-stone-800/50 p-4 md:p-8 lg:p-12 animate-in fade-in slide-in-from-bottom duration-1000 delay-700">
               <div className="mb-6 md:mb-8">
                 <h3 className="text-2xl md:text-3xl font-serif mb-3 md:mb-4 text-stone-50">
                   <span className="text-gold-400 italic font-light">BRING THE HEAT</span>
@@ -1566,7 +1539,7 @@ Equally skilled on guitar, saxophone, and vocals, Jacin has toured the globe wit
                         name="name"
                         placeholder="Your Name"
                         required
-                        className="pl-12 bg-charcoal-900/50 border-stone-700/50 text-stone-100 placeholder-stone-500 focus:border-gold-400/50 focus:ring-gold-400/20 transition-all duration-300 h-14 rounded-none"
+                        className="pl-12 bg-charcoal-900/50 border-stone-700/50 text-stone-100 placeholder-stone-100 focus:border-gold-400/50 focus:ring-gold-400/20 transition-all duration-300 h-14 rounded-none"
                       />
                     </div>
                   </div>
@@ -1579,7 +1552,7 @@ Equally skilled on guitar, saxophone, and vocals, Jacin has toured the globe wit
                         type="email"
                         placeholder="Email Address"
                         required
-                        className="pl-12 bg-charcoal-900/50 border-stone-700/50 text-stone-100 placeholder-stone-500 focus:border-gold-400/50 focus:ring-gold-400/20 transition-all duration-300 h-14 rounded-none"
+                        className="pl-12 bg-charcoal-900/50 border-stone-700/50 text-stone-100 placeholder-stone-100 focus:border-gold-400/50 focus:ring-gold-400/20 transition-all duration-300 h-14 rounded-none"
                       />
                     </div>
                   </div>
@@ -1593,7 +1566,7 @@ Equally skilled on guitar, saxophone, and vocals, Jacin has toured the globe wit
                         name="phone"
                         type="tel"
                         placeholder="Phone Number"
-                        className="pl-12 bg-charcoal-900/50 border-stone-700/50 text-stone-100 placeholder-stone-500 focus:border-gold-400/50 focus:ring-gold-400/20 transition-all duration-300 h-14 rounded-none"
+                        className="pl-12 bg-charcoal-900/50 border-stone-700/50 text-stone-100 placeholder-stone-100 focus:border-gold-400/50 focus:ring-gold-400/20 transition-all duration-300 h-14 rounded-none"
                       />
                     </div>
                   </div>
@@ -1606,7 +1579,7 @@ Equally skilled on guitar, saxophone, and vocals, Jacin has toured the globe wit
                         type="date"
                         placeholder="Event Date"
                         required
-                        className="pl-12 bg-charcoal-900/50 border-stone-700/50 text-stone-100 placeholder-stone-500 focus:border-gold-400/50 focus:ring-gold-400/20 transition-all duration-300 h-14 rounded-none"
+                        className="pl-12 bg-charcoal-900/50 border-stone-700/50 text-stone-100 placeholder-stone-100 focus:border-gold-400/50 focus:ring-gold-400/20 transition-all duration-300 h-14 rounded-none"
                       />
                     </div>
                   </div>
@@ -1639,7 +1612,7 @@ Equally skilled on guitar, saxophone, and vocals, Jacin has toured the globe wit
                         name="guests"
                         type="number"
                         placeholder="Expected Guests"
-                        className="pl-12 bg-charcoal-900/50 border-stone-700/50 text-stone-100 placeholder-stone-500 focus:border-gold-400/50 focus:ring-gold-400/20 transition-all duration-300 h-14 rounded-none"
+                        className="pl-12 bg-charcoal-900/50 border-stone-700/50 text-stone-100 placeholder-stone-100 focus:border-gold-400/50 focus:ring-gold-400/20 transition-all duration-300 h-14 rounded-none"
                       />
                     </div>
                   </div>
@@ -1652,7 +1625,7 @@ Equally skilled on guitar, saxophone, and vocals, Jacin has toured the globe wit
                       <Input
                         name="venue"
                         placeholder="Venue Name"
-                        className="pl-12 bg-charcoal-900/50 border-stone-700/50 text-stone-100 placeholder-stone-500 focus:border-gold-400/50 focus:ring-gold-400/20 transition-all duration-300 h-14 rounded-none"
+                        className="pl-12 bg-charcoal-900/50 border-stone-700/50 text-stone-100 placeholder-stone-100 focus:border-gold-400/50 focus:ring-gold-400/20 transition-all duration-300 h-14 rounded-none"
                       />
                     </div>
                   </div>
@@ -1663,7 +1636,7 @@ Equally skilled on guitar, saxophone, and vocals, Jacin has toured the globe wit
                       <Input
                         name="location"
                         placeholder="Event Location"
-                        className="pl-12 bg-charcoal-900/50 border-stone-700/50 text-stone-100 placeholder-stone-500 focus:border-gold-400/50 focus:ring-gold-400/20 transition-all duration-300 h-14 rounded-none"
+                        className="pl-12 bg-charcoal-900/50 border-stone-700/50 text-stone-100 placeholder-stone-100 focus:border-gold-400/50 focus:ring-gold-400/20 transition-all duration-300 h-14 rounded-none"
                       />
                     </div>
                   </div>
@@ -1676,7 +1649,7 @@ Equally skilled on guitar, saxophone, and vocals, Jacin has toured the globe wit
                       name="preferences"
                       placeholder="Tell us about your vision, music preferences, and any special requirements..."
                       rows={4}
-                      className="pl-12 bg-charcoal-900/50 border-stone-700/50 text-stone-100 placeholder-stone-500 focus:border-gold-400/50 focus:ring-gold-400/20 transition-all duration-300 rounded-none resize-none"
+                      className="pl-12 bg-charcoal-900/50 border-stone-700/50 text-stone-100 placeholder-stone-100 focus:border-gold-400/50 focus:ring-gold-400/20 transition-all duration-300 rounded-none resize-none"
                     />
                   </div>
                 </div>

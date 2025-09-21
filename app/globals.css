@@ -113,3 +113,28 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+@layer components {
+  /* Override placeholder color specifically for the "Bring the Heat" form */
+  [data-section="bring-the-heat-form"] input::placeholder,
+  [data-section="bring-the-heat-form"] textarea::placeholder {
+    color: rgb(245 245 244) !important; /* stone-100 */
+  }
+  
+  /* Ensure select dropdown text is also white in this section */
+  [data-section="bring-the-heat-form"] select {
+    color: rgb(245 245 244) !important; /* stone-100 */
+  }
+  
+  /* Special handling for date input - ensure the date control text is white */
+  [data-section="bring-the-heat-form"] input[type="date"] {
+    color: rgb(245 245 244) !important; /* stone-100 */
+  }
+  
+  [data-section="bring-the-heat-form"] input[type="date"]::-webkit-datetime-edit-text,
+  [data-section="bring-the-heat-form"] input[type="date"]::-webkit-datetime-edit-month-field,
+  [data-section="bring-the-heat-form"] input[type="date"]::-webkit-datetime-edit-day-field,
+  [data-section="bring-the-heat-form"] input[type="date"]::-webkit-datetime-edit-year-field {
+    color: rgb(245 245 244) !important; /* stone-100 */
+  }
+}
