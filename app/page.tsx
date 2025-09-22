@@ -29,6 +29,7 @@ import {
 } from "lucide-react"
 import Link from "next/link"
 import { submitContactForm } from "./actions/contact"
+import SetListSection from "@/components/setlist-section"
 
 // Format Modal Component
 function FormatModal({ 
@@ -511,6 +512,7 @@ export default function LuxuryLiveEntertainment() {
               {[
                 { href: "#home", label: "Home" },
                 { href: "#formats", label: "Services" },
+                { href: "#setlist", label: "Set List" },
                 { href: "#reviews", label: "Testimonials" },
                 { href: "#contact", label: "Contact" },
               ].map((item, index) => (
@@ -542,6 +544,7 @@ export default function LuxuryLiveEntertainment() {
                 {[
                   { href: "#home", label: "Home" },
                   { href: "#formats", label: "Services" },
+                  { href: "#setlist", label: "Set List" },
                   { href: "#reviews", label: "Testimonials" },
                   { href: "#contact", label: "Contact" },
                 ].map((item, index) => (
@@ -912,6 +915,24 @@ export default function LuxuryLiveEntertainment() {
           accentColor={format.accentColor}
         />
       ))}
+
+      {/* Set List Section */}
+      <section id="setlist" className="relative py-24 px-6 bg-gradient-to-b from-charcoal-900 to-charcoal-950 overflow-hidden">
+        <div className="container mx-auto max-w-7xl">
+          <div className="text-center mb-16 animate-in fade-in slide-in-from-bottom duration-1000">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-serif mb-6 tracking-tight">
+              <span className="text-stone-50">Our </span>
+              <span className="text-gold-400 italic font-light">Set List</span>
+            </h2>
+            <p className="text-xl text-stone-400 font-light max-w-3xl mx-auto">
+              Explore our extensive repertoire of songs across all genres and decades
+            </p>
+          </div>
+          
+          {/* Set List Component */}
+          <SetListSection />
+        </div>
+      </section>
 
       {/* CEO Bio Section */}
       <section className="relative py-24 px-6 bg-gradient-to-b from-charcoal-900 to-charcoal-950 overflow-hidden">
