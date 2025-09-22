@@ -25,7 +25,7 @@ import type { Song, FilterState, Era, Tempo } from "@/lib/types"
 import { parseSetlist } from "@/lib/setlist-parser"
 import { cn, preserveScroll } from "@/lib/utils"
 
-interface SetListSectionProps {
+interface SongListSectionProps {
   initialSongs?: Song[]
 }
 
@@ -56,7 +56,7 @@ const SECTION_ORDER = [
 
 type ViewMode = "list" | "grid"
 
-export default function SetListSection({ initialSongs }: SetListSectionProps) {
+export default function SongListSection({ initialSongs }: SongListSectionProps) {
   const [songs] = useState<Song[]>(() => initialSongs || parseSetlist())
   const [favorites, setFavorites] = useState<string[]>([])
   const [filters, setFilters] = useState<FilterState>({

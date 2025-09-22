@@ -46,7 +46,7 @@ export default function ContactPage() {
         <div className="text-center mb-12">
           <h1 className="text-4xl md:text-5xl font-serif text-stone-50 mb-4">Bring the Heat</h1>
           <p className="text-lg text-stone-400 text-pretty">
-            Ready to make your event unforgettable? Let's discuss your perfect setlist.
+            Ready to make your event unforgettable? Let's discuss your perfect song list.
           </p>
         </div>
 
@@ -142,11 +142,11 @@ export default function ContactPage() {
                 <div className="text-center py-8">
                   <p className="text-stone-400 mb-4">No songs selected yet</p>
                   <Button
-                    onClick={() => window.open("/#setlist", "_blank")}
+                    onClick={() => window.open("/#songlist", "_blank")}
                     variant="outline"
                     className="border-stone-700/50 text-stone-300 hover:bg-charcoal-800/50"
                   >
-                    Browse Set List
+                    Browse Song List
                   </Button>
                 </div>
               )}
