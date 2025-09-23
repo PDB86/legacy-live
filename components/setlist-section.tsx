@@ -300,7 +300,7 @@ export default function SongListSection({ initialSongs }: SongListSectionProps) 
                 />
               </div>
 
-              <div className="flex gap-2">
+              <div className="hidden gap-2">
                 <div className="flex border border-stone-700/50 rounded-md overflow-hidden">
                   <Button
                     variant={viewMode === "list" ? "default" : "ghost"}
