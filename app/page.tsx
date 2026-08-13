@@ -735,7 +735,7 @@ export default function LuxuryLiveEntertainment() {
                         }}
                       >
                         <iframe
-                          src="https://player.vimeo.com/video/1098987499?h=3f109ec64e&title=0&byline=0&portrait=0"
+                          src="https://www.youtube.com/embed/cddI5vgrN58?rel=0&modestbranding=1"
                           frameBorder="0"
                           allow="autoplay; fullscreen; picture-in-picture"
                           allowFullScreen
@@ -763,7 +763,7 @@ export default function LuxuryLiveEntertainment() {
                         }}
                       >
                         <iframe
-                          src="https://player.vimeo.com/video/1098987561?h=852b52e54f&title=0&byline=0&portrait=0"
+                          src="https://www.youtube.com/embed/CoygwvBWMf4?rel=0&modestbranding=1"
                           frameBorder="0"
                           allow="autoplay; fullscreen; picture-in-picture"
                           allowFullScreen
@@ -791,7 +791,7 @@ export default function LuxuryLiveEntertainment() {
                         }}
                       >
                         <iframe
-                          src="https://player.vimeo.com/video/1098987612?h=c0abf2ce95&title=0&byline=0&portrait=0"
+                          src="https://www.youtube.com/embed/lMEnNS-YzlY?rel=0&modestbranding=1"
                           frameBorder="0"
                           allow="autoplay; fullscreen; picture-in-picture"
                           allowFullScreen
@@ -819,7 +819,7 @@ export default function LuxuryLiveEntertainment() {
                         }}
                       >
                         <iframe
-                          src="https://player.vimeo.com/video/1098987357?h=443ed6f06e&title=0&byline=0&portrait=0"
+                          src="https://www.youtube.com/embed/VIOQRlceYN4?rel=0&modestbranding=1"
                           frameBorder="0"
                           allow="autoplay; fullscreen; picture-in-picture"
                           allowFullScreen
@@ -847,7 +847,7 @@ export default function LuxuryLiveEntertainment() {
                         }}
                       >
                         <iframe
-                          src="https://player.vimeo.com/video/1098987411?h=c095a6fa6e&title=0&byline=0&portrait=0"
+                          src="https://www.youtube.com/embed/ijIHgJsetNo?rel=0&modestbranding=1"
                           frameBorder="0"
                           allow="autoplay; fullscreen; picture-in-picture"
                           allowFullScreen
