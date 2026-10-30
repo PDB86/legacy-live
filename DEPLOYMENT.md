@@ -33,18 +33,18 @@ Last checked: 2026-10-30 using the local repository and connected Vercel tools.
 
 Saving local files alone does not update the public website. Pushing to `main` should be treated as publishing because it triggers production deployment.
 
-Verification evidence: Vercel's Git deployment context lists this project's GitHub connection. Its latest production deployment at the time of inspection had `source: git`, `githubCommitRef: main`, and the production domains assigned. No test push or deployment was performed during this investigation.
+Verification evidence: publishing v1.10.0 to GitHub `main` triggered a production deployment through the Git integration. Vercel reported `READY`, assigned the production domains, and the live homepage, contact route, and corrected WebM returned HTTP 200.
 
 ## Last observed production deployment
 
 This is a historical reference, not a guarantee of the current deployment.
 
-- Deployment ID: `dpl_8fiL6CBwiouhvANqcw2pxByFRzbK`
+- Deployment ID: `dpl_4atnhTpF7b5SB1iBoPTmB5uq5P1L`
 - Status: `READY`
 - Target: `production`
-- Commit: `7add38ca5655227fc42357ec832f32b756b10fd7`
-- Commit subject: `upgrade nextjs`
-- Deployment URL: https://legacy-live-1i2va3ca2-pdbmusicacademys-projects.vercel.app
+- Commit: `2858b29666495fafa171c9ca6468cbdeb9ee55e9`
+- Commit subject: `Release v1.10.0: fix contact delivery and harden website checks`
+- Deployment URL: https://legacy-live-eyrvhovqo-pablodellabella-projects.vercel.app
 - Vercel Node.js setting: `22.x`
 - Vercel authentication protection applies to non-custom deployment domains; custom production domains are excluded.
 
@@ -53,4 +53,4 @@ This is a historical reference, not a guarantee of the current deployment.
 - Connected Vercel tools successfully read the team, project, Git connection, and deployment details in this session.
 - `.vercel/` is ignored and was absent locally; use the IDs above to identify the existing project rather than creating another project.
 - Git is not on this PowerShell PATH. For release work, Git was found at `C:/Users/pablo/AppData/Local/GitHubDesktop/app-3.6.10/resources/app/git/cmd/git.exe`. Use this executable (or locate the current GitHub Desktop version if updated). Fetching GitHub succeeded under the authenticated `PDB86` account.
-- During the subsequent health check, local `main` and the cached `origin/main` ref both pointed to the production commit listed above. Working-tree status was not verified using Git; local v1.10.0 fixes are not deployed.
+- v1.10.0 was committed, pushed, and verified in production. The subsequent portfolio carousel update replaces the old desktop/mobile layouts with one responsive Embla gallery, retains all 27 assets and the existing preview, and passes production build, type checking, lint (warnings only), and local HTTP checks. Visual browser verification was unavailable. Check Vercel for this newer commit's deployment status.

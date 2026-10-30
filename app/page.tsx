@@ -30,6 +30,7 @@ import {
 import Link from "next/link"
 import { submitContactForm } from "./actions/contact"
 import SongListSection from "@/components/setlist-section"
+import PortfolioCarousel from "@/components/portfolio-carousel"
 
 // Format Modal Component
 function FormatModal({ 
@@ -165,12 +166,6 @@ export default function LuxuryLiveEntertainment() {
     { left: number; top: number; delay: number; duration: number }[]
   >([]);
 
-  // Drag scrolling state
-  const [isDragging, setIsDragging] = useState(false)
-  const [dragStartX, setDragStartX] = useState(0)
-  const [dragStartScrollLeft, setDragStartScrollLeft] = useState(0)
-  const carouselContainerRef = useRef<HTMLDivElement>(null)
-  
   // Portfolio grid modal state
   const [isPortfolioGridOpen, setIsPortfolioGridOpen] = useState(false)
   
@@ -295,64 +290,6 @@ export default function LuxuryLiveEntertainment() {
     window.addEventListener("keydown", handleKeyDown)
     return () => window.removeEventListener("keydown", handleKeyDown)
   }, [selectedImageIdx, portfolioImages.length])
-
-  // Debug modal state
-  useEffect(() => {
-    if (selectedImageIdx !== null) {
-      console.log('Modal opened with selectedImageIdx:', selectedImageIdx);
-      console.log('Image data:', portfolioImages[selectedImageIdx]);
-      console.log('Image src:', portfolioImages[selectedImageIdx]?.src);
-    }
-  }, [selectedImageIdx, portfolioImages]);
-
-  // Drag scrolling handlers
-  const handleMouseDown = (e: React.MouseEvent) => {
-    if (!carouselContainerRef.current) return;
-    
-    setIsDragging(true);
-    setDragStartX(e.pageX - carouselContainerRef.current.offsetLeft);
-    setDragStartScrollLeft(carouselContainerRef.current.scrollLeft);
-    
-    // Prevent text selection during drag
-    e.preventDefault();
-  };
-
-  const handleMouseMove = (e: React.MouseEvent) => {
-    if (!isDragging || !carouselContainerRef.current) return;
-    
-    const x = e.pageX - carouselContainerRef.current.offsetLeft;
-    const walk = (x - dragStartX) * 2; // Scroll speed multiplier
-    carouselContainerRef.current.scrollLeft = dragStartScrollLeft - walk;
-  };
-
-  const handleMouseUp = () => {
-    setIsDragging(false);
-  };
-
-  const handleMouseLeave = () => {
-    setIsDragging(false);
-  };
-
-  // Touch handlers for mobile
-  const handleTouchStart = (e: React.TouchEvent) => {
-    if (!carouselContainerRef.current) return;
-    
-    setIsDragging(true);
-    setDragStartX(e.touches[0].pageX - carouselContainerRef.current.offsetLeft);
-    setDragStartScrollLeft(carouselContainerRef.current.scrollLeft);
-  };
-
-  const handleTouchMove = (e: React.TouchEvent) => {
-    if (!isDragging || !carouselContainerRef.current) return;
-    
-    const x = e.touches[0].pageX - carouselContainerRef.current.offsetLeft;
-    const walk = (x - dragStartX) * 2; // Scroll speed multiplier
-    carouselContainerRef.current.scrollLeft = dragStartScrollLeft - walk;
-  };
-
-  const handleTouchEnd = () => {
-    setIsDragging(false);
-  };
 
   const handleFormSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -963,154 +900,11 @@ Equally skilled on guitar, saxophone, and vocals, Jacin has toured the globe wit
         </div>
       </section>
 
-      {/* Enhanced Portfolio Section - Single Row Carousel */}
-      <section className="relative py-24 px-6 bg-charcoal-900 overflow-hidden">
-        <div className="container mx-auto max-w-7xl">
-          <div className="text-center mb-16 animate-in fade-in slide-in-from-bottom duration-1000">
-            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-serif mb-8 tracking-tight">
-              <span className="text-stone-50">Portfolio </span>
-              <span className="italic text-gold-400 font-light">Highlights</span>
-            </h2>
-          </div>
-
-          {/* MOBILE STATIC LAYOUT */}
-          <div className="block md:hidden">
-            {/* Vertical stack of portfolio items — scrollable but no horizontal overflow */}
-            <div className="mt-6 px-4 space-y-4 max-h-[70vh] overflow-y-auto">
-              {portfolioImages.slice(0, 6).map((item, idx) => (
-                <div key={`mobile-${item.id}`} className="relative w-full overflow-hidden rounded-xl shadow-lg bg-black">
-                  <div className="relative w-full aspect-[9/16] sm:aspect-[3/4]">
-                    <img
-                      src={item.src}
-                      alt={item.alt}
-                      className="absolute inset-0 h-full w-full object-cover"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-charcoal-950/60 via-transparent to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300"></div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* DESKTOP/TABLET CAROUSEL */}
-          <div className="hidden md:block">
-            <div className="relative mb-12 overflow-hidden">
-            <div id="portfolio-carousel-description" className="sr-only">
-              Use your mouse to drag and scroll through the portfolio highlights, or use touch gestures on mobile devices.
-            </div>
-            <div 
-              ref={carouselContainerRef}
-              className="flex overflow-x-auto overflow-y-hidden scrollbar-hide snap-x snap-mandatory carousel-scroll"
-              onMouseDown={handleMouseDown}
-              onMouseMove={handleMouseMove}
-              onMouseUp={handleMouseUp}
-              onMouseLeave={handleMouseLeave}
-              onTouchStart={handleTouchStart}
-              onTouchMove={handleTouchMove}
-              onTouchEnd={handleTouchEnd}
-              role="region"
-              aria-label="Portfolio Highlights Carousel"
-              aria-describedby="portfolio-carousel-description"
-            >
-              {portfolioImages.map((item, idx) => (
-                <div
-                  key={`carousel-${item.id}`}
-                  onClick={() => { 
-                    // Only open modal if not dragging
-                    if (!isDragging) {
-                      console.log('Carousel image clicked, idx:', idx); 
-                      console.log('Image src:', item.src);
-                      console.log('Image alt:', item.alt);
-                      setSelectedImageIdx(idx); 
-                    }
-                  }}
-                  className="flex-shrink-0 w-[600px] h-[400px] md:w-[800px] md:h-[540px] mx-6 bg-charcoal-800/30 backdrop-blur-sm border-2 border-stone-700/30 overflow-hidden transition-all duration-700 transform hover:scale-110 hover:-translate-y-4 cursor-pointer group relative shadow-2xl hover:shadow-gold-500/20"
-                  style={{
-                    boxShadow: "0 20px 40px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.05)",
-                  }}
-                  role="button"
-                  tabIndex={0}
-                  aria-label={`View ${item.alt} portfolio item`}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter' || e.key === ' ') {
-                      e.preventDefault();
-                      if (!isDragging) {
-                        setSelectedImageIdx(idx);
-                      }
-                    }
-                  }}
-                >
-                  <div className="relative w-full aspect-[4/3] overflow-hidden rounded-lg">
-                    <img
-                      src={item.src}
-                      alt={item.alt}
-                      className="absolute inset-0 w-full h-full object-cover transition-all duration-700 group-hover:scale-105 opacity-90 group-hover:opacity-100"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-charcoal-950/90 via-charcoal-950/20 to-transparent opacity-60 group-hover:opacity-40 transition-opacity duration-700"></div>
-                    <div className="absolute inset-0 bg-gradient-to-br from-gold-500/10 via-transparent to-gold-600/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
-                    {/* Enhanced glow effect */}
-                    <div className="absolute inset-0 opacity-0 group-hover:opacity-20 transition-opacity duration-700 bg-gradient-to-r from-gold-400/20 via-transparent to-gold-600/20 blur-xl"></div>
-                  </div>
-                </div>
-              ))}
-              {/* Duplicate for seamless loop */}
-              {portfolioImages.map((item, idx) => (
-                <div
-                  key={`carousel-dup-${item.id}`}
-                  onClick={() => {
-                    // Only open modal if not dragging
-                    if (!isDragging) {
-                      setSelectedImageIdx(idx);
-                    }
-                  }}
-                  className="flex-shrink-0 w-[600px] h-[400px] md:w-[800px] md:h-[540px] mx-6 bg-charcoal-800/30 backdrop-blur-sm border-2 border-stone-700/30 overflow-hidden transition-all duration-700 transform hover:scale-110 hover:-translate-y-4 cursor-pointer group relative shadow-2xl hover:shadow-gold-500/20"
-                  style={{
-                    boxShadow: "0 20px 40px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.05)",
-                  }}
-                  role="button"
-                  tabIndex={0}
-                  aria-label={`View ${item.alt} portfolio item`}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter' || e.key === ' ') {
-                      e.preventDefault();
-                      if (!isDragging) {
-                        setSelectedImageIdx(idx);
-                      }
-                    }
-                  }}
-                >
-                  <div className="relative w-full aspect-[4/3] overflow-hidden rounded-lg">
-                    <img
-                      src={item.src}
-                      alt={item.alt}
-                      className="absolute inset-0 w-full h-full object-cover transition-all duration-700 group-hover:scale-105 opacity-90 group-hover:opacity-100"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-charcoal-950/90 via-charcoal-950/20 to-transparent opacity-60 group-hover:opacity-40 transition-opacity duration-700"></div>
-                    <div className="absolute inset-0 bg-gradient-to-br from-gold-500/10 via-transparent to-gold-600/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
-                    {/* Enhanced glow effect */}
-                    <div className="absolute inset-0 opacity-0 group-hover:opacity-20 transition-opacity duration-700 bg-gradient-to-r from-gold-400/20 via-transparent to-gold-600/20 blur-xl"></div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-
-          {/* Enhanced Call to Action */}
-          <div className="text-center mt-16">
-            <Button
-              variant="outline"
-              size="lg"
-              onClick={() => setIsPortfolioGridOpen(true)}
-              className="mx-auto px-6 md:px-10 bg-gradient-to-r from-gold-500 to-gold-600 hover:from-gold-400 hover:to-gold-500 text-charcoal-950 font-medium py-3 md:py-4 text-base md:text-lg transition-all duration-500 transform hover:scale-105 md:hover:scale-110 hover:rotate-1 hover:shadow-2xl hover:shadow-gold-500/40 rounded-xl border-2 border-gold-500 hover:border-gold-400 tracking-wide uppercase group shadow-lg shadow-gold-500/20 hover:shadow-gold-400/40 focus:ring-4 focus:ring-gold-400/40"
-            >
-              <span className="relative z-10">View Complete Portfolio</span>
-              <ArrowRight className="w-4 h-4 md:w-5 md:h-5 ml-2 md:ml-3 transition-transform duration-300 group-hover:translate-x-1 md:group-hover:translate-x-2 group-hover:scale-110 md:group-hover:scale-125 group-hover:rotate-12" />
-              <span className="absolute inset-0 rounded-xl bg-gold-400/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-sm" />
-            </Button>
-          </div>
-        </div>
-      </section>
+      <PortfolioCarousel
+        images={portfolioImages}
+        onOpenImage={setSelectedImageIdx}
+        onViewAll={() => setIsPortfolioGridOpen(true)}
+      />
 
       {/* Enhanced Standards Section */}
       <section className="relative py-24 px-2 md:px-6 bg-gradient-to-b from-charcoal-900 to-charcoal-950">
