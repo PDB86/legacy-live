@@ -1,21 +1,15 @@
 "use server"
 
 import { Resend } from "resend"
-
-const resend = new Resend(process.env.RESEND_API_KEY)
+import { contactSchema } from "@/lib/contact-validation"
 
 export async function submitContactForm(formData: FormData) {
   try {
-    // Extract form data
-    const name = formData.get("name") as string
-    const eventDate = formData.get("eventDate") as string
-    const eventType = formData.get("eventType") as string
-    const email = formData.get("email") as string
-    const phone = formData.get("phone") as string
-    const guests = formData.get("guests") as string
-    const venue = formData.get("venue") as string
-    const location = formData.get("location") as string
-    const preferences = formData.get("preferences") as string
+    const parsed = contactSchema.safeParse(Object.fromEntries(formData))
+    if (!parsed.success) {
+      return { success: false, message: "Please enter a valid name, email address, event date, and event details." }
+    }
+    const { name, eventDate, eventType, email, phone, guests, venue, location, preferences } = parsed.data
 
     // Create email content
     const emailContent = `
@@ -47,32 +41,30 @@ This inquiry was submitted through the Legacy Live Entertainment website.
         success: false,
         message: "Email service is not configured. Please contact us directly.",
       }
-    } else {
-      console.log("[Resend] RESEND_API_KEY is present.")
     }
 
     // Debug: Log before sending
-    console.log("[Resend] Attempting to send email to: jacinnagao@gmail.com, pablodellabella@gmail.com")
-    console.log("[Resend] Using from address: notifications@legacyliveevents.com")
+    const resend = new Resend(process.env.RESEND_API_KEY)
     let sendResult
     try {
       sendResult = await resend.emails.send({
         from: "notifications@legacyliveevents.com", // Use a verified domain for best results
         to: ["jacinnagao@gmail.com", "pablodellabella@gmail.com"],
         subject: "New Contact Form Submission",
+        replyTo: email,
         text: emailContent,
       })
-      console.log("[Resend] Email send result:", sendResult)
-    } catch (sendError) {
-      console.error("[Resend] Error sending email:", sendError)
+      if (sendResult.error || !sendResult.data?.id) {
+        console.error("Contact email rejected", sendResult.error?.name)
+        return { success: false, message: "There was an error sending your message. Please try again later or call +1 (305) 968-3889." }
+      }
+    } catch {
+      console.error("Contact email request failed")
       return {
         success: false,
         message: "There was an error sending your message. Please try again later or contact us directly.",
       }
     }
-
-    // Simulate API delay (optional, can be removed)
-    await new Promise((resolve) => setTimeout(resolve, 1000))
 
     return {
       success: true,

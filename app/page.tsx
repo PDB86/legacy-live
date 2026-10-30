@@ -356,11 +356,12 @@ export default function LuxuryLiveEntertainment() {
 
   const handleFormSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
+    const form = event.currentTarget
     setIsSubmitting(true)
     setSubmitMessage(null)
 
     try {
-      const formData = new FormData(event.currentTarget)
+      const formData = new FormData(form)
       const result = await submitContactForm(formData)
 
       setIsSubmitting(false)
@@ -371,9 +372,7 @@ export default function LuxuryLiveEntertainment() {
 
       if (result.success) {
         // Reset form with null check
-        if (event.currentTarget) {
-          event.currentTarget.reset()
-        }
+        form.reset()
         // Clear message after 5 seconds
         setTimeout(() => setSubmitMessage(null), 5000)
       }
@@ -530,6 +529,8 @@ export default function LuxuryLiveEntertainment() {
 
             {/* Mobile Menu Button */}
             <button
+              aria-label={isMenuOpen ? "Close navigation menu" : "Open navigation menu"}
+              aria-expanded={isMenuOpen}
               className="md:hidden text-stone-50 transform transition-all duration-300 hover:scale-110 hover:rotate-90"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
             >
@@ -591,7 +592,7 @@ export default function LuxuryLiveEntertainment() {
             }}
           >
             <source src="/deck_1.mp4" type="video/mp4" />
-            <source src="/deck_1.webm" type="video/webm" />
+            <source src="/Deck_1.webm" type="video/webm" />
           </video>
           <div className="absolute inset-0 bg-gradient-to-b from-charcoal-950/30 via-charcoal-950/50 to-charcoal-950/60"></div>
 
@@ -1558,6 +1559,7 @@ Equally skilled on guitar, saxophone, and vocals, Jacin has toured the globe wit
                       <User className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-stone-500 group-focus-within:text-gold-400 transition-colors duration-300" />
                       <Input
                         name="name"
+                        aria-label="Your name"
                         placeholder="Your Name"
                         required
                         className="pl-12 bg-charcoal-900/50 border-stone-700/50 text-stone-100 placeholder-stone-100 focus:border-gold-400/50 focus:ring-gold-400/20 transition-all duration-300 h-14 rounded-none"
@@ -1570,6 +1572,7 @@ Equally skilled on guitar, saxophone, and vocals, Jacin has toured the globe wit
                       <Mail className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-stone-500 group-focus-within:text-gold-400 transition-colors duration-300" />
                       <Input
                         name="email"
+                        aria-label="Email address"
                         type="email"
                         placeholder="Email Address"
                         required
@@ -1585,6 +1588,7 @@ Equally skilled on guitar, saxophone, and vocals, Jacin has toured the globe wit
                       <Phone className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-stone-500 group-focus-within:text-gold-400 transition-colors duration-300" />
                       <Input
                         name="phone"
+                        aria-label="Phone number"
                         type="tel"
                         placeholder="Phone Number"
                         className="pl-12 bg-charcoal-900/50 border-stone-700/50 text-stone-100 placeholder-stone-100 focus:border-gold-400/50 focus:ring-gold-400/20 transition-all duration-300 h-14 rounded-none"
@@ -1597,6 +1601,7 @@ Equally skilled on guitar, saxophone, and vocals, Jacin has toured the globe wit
                       <Calendar className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-stone-500 group-focus-within:text-gold-400 transition-colors duration-300" />
                       <Input
                         name="eventDate"
+                        aria-label="Event date"
                         type="date"
                         placeholder="Event Date"
                         required
@@ -1612,6 +1617,7 @@ Equally skilled on guitar, saxophone, and vocals, Jacin has toured the globe wit
                       <Music className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-stone-500 group-focus-within:text-gold-400 transition-colors duration-300" />
                       <select
                         name="eventType"
+                        aria-label="Event type"
                         required
                         className="w-full pl-12 pr-4 py-4 bg-charcoal-900/50 border border-stone-700/50 text-stone-100 focus:border-gold-400/50 focus:ring-gold-400/20 transition-all duration-300 h-14 rounded-none appearance-none"
                       >
@@ -1631,6 +1637,9 @@ Equally skilled on guitar, saxophone, and vocals, Jacin has toured the globe wit
                       <Users className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-stone-500 group-focus-within:text-gold-400 transition-colors duration-300" />
                       <Input
                         name="guests"
+                        aria-label="Expected guests"
+                        min="1"
+                        max="999999"
                         type="number"
                         placeholder="Expected Guests"
                         className="pl-12 bg-charcoal-900/50 border-stone-700/50 text-stone-100 placeholder-stone-100 focus:border-gold-400/50 focus:ring-gold-400/20 transition-all duration-300 h-14 rounded-none"
@@ -1645,6 +1654,7 @@ Equally skilled on guitar, saxophone, and vocals, Jacin has toured the globe wit
                       <Building className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-stone-500 group-focus-within:text-gold-400 transition-colors duration-300" />
                       <Input
                         name="venue"
+                        aria-label="Venue name"
                         placeholder="Venue Name"
                         className="pl-12 bg-charcoal-900/50 border-stone-700/50 text-stone-100 placeholder-stone-100 focus:border-gold-400/50 focus:ring-gold-400/20 transition-all duration-300 h-14 rounded-none"
                       />
@@ -1656,6 +1666,7 @@ Equally skilled on guitar, saxophone, and vocals, Jacin has toured the globe wit
                       <MapPin className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-stone-500 group-focus-within:text-gold-400 transition-colors duration-300" />
                       <Input
                         name="location"
+                        aria-label="Event location"
                         placeholder="Event Location"
                         className="pl-12 bg-charcoal-900/50 border-stone-700/50 text-stone-100 placeholder-stone-100 focus:border-gold-400/50 focus:ring-gold-400/20 transition-all duration-300 h-14 rounded-none"
                       />
@@ -1668,6 +1679,8 @@ Equally skilled on guitar, saxophone, and vocals, Jacin has toured the globe wit
                     <Headphones className="absolute left-4 top-4 w-5 h-5 text-stone-500 group-focus-within:text-gold-400 transition-colors duration-300" />
                     <Textarea
                       name="preferences"
+                      aria-label="Music preferences and special requirements"
+                      maxLength={10000}
                       placeholder="Tell us about your vision, music preferences, and any special requirements..."
                       rows={4}
                       className="pl-12 bg-charcoal-900/50 border-stone-700/50 text-stone-100 placeholder-stone-100 focus:border-gold-400/50 focus:ring-gold-400/20 transition-all duration-300 rounded-none resize-none"
@@ -1678,6 +1691,7 @@ Equally skilled on guitar, saxophone, and vocals, Jacin has toured the globe wit
                 {/* Submit Message */}
                 {submitMessage && (
                   <div
+                    role="status"
                     className={`p-4 rounded-none border ${
                       submitMessage.type === "success"
                         ? "bg-green-900/20 border-green-500/30 text-green-400"

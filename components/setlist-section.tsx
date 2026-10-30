@@ -66,9 +66,7 @@ export default function SongListSection({ initialSongs }: SongListSectionProps) 
     moments: [],
     sort: "popularity",
   })
-  const [viewMode, setViewMode] = useState<ViewMode>(
-    () => (typeof window !== "undefined" && (localStorage.getItem("setlist-view-mode") as ViewMode)) || "list",
-  )
+  const [viewMode, setViewMode] = useState<ViewMode>("list")
 
   const [collapsedSections, setCollapsedSections] = useState<Set<string>>(() => {
     // Always start with all sections collapsed for SSR and initial render
@@ -84,28 +82,29 @@ export default function SongListSection({ initialSongs }: SongListSectionProps) 
   const anchorRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      localStorage.setItem("setlist-view-mode", viewMode)
-    }
-  }, [viewMode])
+    if (!collapsedHydrated) return
+    try { localStorage.setItem("setlist-view-mode", viewMode) } catch { /* Storage may be disabled. */ }
+  }, [viewMode, collapsedHydrated])
 
   useEffect(() => {
     if (typeof window !== "undefined" && collapsedHydrated) {
-      localStorage.setItem("setlist-collapsed-sections", JSON.stringify(Array.from(collapsedSections)))
+      try { localStorage.setItem("setlist-collapsed-sections", JSON.stringify(Array.from(collapsedSections))) } catch { /* Storage may be disabled. */ }
     }
   }, [collapsedSections, collapsedHydrated])
 
   useEffect(() => {
     if (typeof window !== "undefined" && !collapsedHydrated) {
-      const saved = localStorage.getItem("setlist-collapsed-sections")
-      if (saved) {
-        try {
+      try {
+        const savedMode = localStorage.getItem("setlist-view-mode")
+        if (savedMode === "list" || savedMode === "grid") setViewMode(savedMode)
+        const saved = localStorage.getItem("setlist-collapsed-sections")
+        if (saved) {
           const savedSections = JSON.parse(saved)
-          setCollapsedSections(new Set(savedSections))
-        } catch {
-          // If parsing fails, keep default (all collapsed)
+          if (Array.isArray(savedSections)) {
+            setCollapsedSections(new Set(savedSections.filter(section => SECTION_ORDER.includes(section))))
+          }
         }
-      }
+      } catch { /* Keep defaults if storage is unavailable or malformed. */ }
       setCollapsedSections((prev) => {
         const newSet = new Set(prev)
         newSet.add("50's / 60's / Motown")
@@ -143,7 +142,7 @@ export default function SongListSection({ initialSongs }: SongListSectionProps) 
 
       // Find the appropriate section for this song
       for (const [section, genres] of Object.entries(SECTION_MAPPING)) {
-        if (song.genres.some((genre) => genres.includes(genre))) {
+        if (song.genres[0] && genres.includes(song.genres[0])) {
           groups[section].push(song)
           assigned = true
           break
@@ -293,6 +292,7 @@ export default function SongListSection({ initialSongs }: SongListSectionProps) 
               <div className="relative flex-1">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-stone-500 w-4 h-4" />
                 <Input
+                  aria-label="Search songs or artists"
                   placeholder="Search songs or artists..."
                   value={filters.search}
                   onChange={(e) => setFilters((prev) => ({ ...prev, search: e.target.value }))}
@@ -400,6 +400,7 @@ export default function SongListSection({ initialSongs }: SongListSectionProps) 
                 >
                   {/* Section Header */}
                   <button
+                    aria-expanded={!isCollapsed}
                     onClick={() => toggleSection(section)}
                     disabled={searchActive}
                     className={cn(
@@ -453,6 +454,8 @@ export default function SongListSection({ initialSongs }: SongListSectionProps) 
                               size="sm"
                               variant="ghost"
                               onClick={() => toggleFavorite(song.id)}
+                              aria-label={`${favorites.includes(song.id) ? "Remove" : "Add"} ${song.title} ${favorites.includes(song.id) ? "from" : "to"} favorites`}
+                              aria-pressed={favorites.includes(song.id)}
                               className={cn(
                                 "p-1 h-6 w-6 opacity-0 group-hover:opacity-100 focus:opacity-100 transition-opacity flex-shrink-0",
                                 favorites.includes(song.id)
@@ -488,6 +491,8 @@ export default function SongListSection({ initialSongs }: SongListSectionProps) 
                       size="sm"
                       variant="ghost"
                       onClick={() => toggleFavorite(song.id)}
+                      aria-label={`${favorites.includes(song.id) ? "Remove" : "Add"} ${song.title} ${favorites.includes(song.id) ? "from" : "to"} favorites`}
+                      aria-pressed={favorites.includes(song.id)}
                       className={cn(
                         "ml-2 p-1 h-8 w-8",
                         favorites.includes(song.id)

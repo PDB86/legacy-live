@@ -572,7 +572,7 @@ export function parseSetlist(): Song[] {
 
     const lines = section.trim().split("\n")
     const headerLine = lines[0]
-    const songLines = lines.slice(1).filter((line) => line.trim() && line.includes(" - "))
+    const songLines = lines.slice(1).filter((line) => /\s[-–—]\s/.test(line))
 
     // Determine section defaults
     let sectionDefaults: Partial<Song> = {}
@@ -635,7 +635,7 @@ export function parseSetlist(): Song[] {
     }
 
     songLines.forEach((line) => {
-      const match = line.match(/^(.+?)\s*[-–—]\s*(.+)$/)
+      const match = line.match(/^(.+?)\s+[-–—]\s+(.+)$/)
       if (!match) return
 
       const [, title, artist] = match

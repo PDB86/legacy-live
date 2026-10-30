@@ -10,7 +10,7 @@ export function cn(...inputs: ClassValue[]) {
  * @param anchorRef - Ref to a stable anchor element
  * @param callback - Function to execute after scroll position is preserved
  */
-export function preserveScroll(anchorRef: React.RefObject<HTMLElement>, callback?: () => void) {
+export function preserveScroll(anchorRef: React.RefObject<HTMLElement | null>, callback?: () => void) {
   const anchor = anchorRef.current
   if (!anchor) {
     callback?.()

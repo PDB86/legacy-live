@@ -8,9 +8,12 @@ import { Textarea } from "@/components/ui/textarea"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { parseSetlist } from "@/lib/setlist-parser"
+import { submitContactForm } from "@/app/actions/contact"
 
 export default function ContactPage() {
   const searchParams = useSearchParams()
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [result, setResult] = useState<{ success: boolean; message: string } | null>(null)
   const [selectedSongs, setSelectedSongs] = useState<string[]>([])
   const [formData, setFormData] = useState({
     name: "",
@@ -34,10 +37,26 @@ export default function ContactPage() {
     }
   }, [searchParams])
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    console.log("Form data:", formData)
-    alert("Thank you for your inquiry! We'll get back to you soon.")
+    setIsSubmitting(true)
+    setResult(null)
+    const submission = new FormData()
+    for (const key of ["name", "email", "phone", "eventDate", "venue"] as const) {
+      submission.set(key, formData[key])
+    }
+    submission.set("preferences", [formData.message, selectedSongDetails.length ? `Selected songs:\n${selectedSongDetails.map(song => `${song.title} - ${song.artist}`).join("\n")}` : ""].filter(Boolean).join("\n\n"))
+    try {
+      const response = await submitContactForm(submission)
+      setResult(response)
+      if (response.success) {
+        setFormData(prev => ({ ...prev, name: "", email: "", phone: "", eventDate: "", venue: "", message: "" }))
+      }
+    } catch {
+      setResult({ success: false, message: "Unable to send your inquiry. Please try again or call +1 (305) 968-3889." })
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   return (
@@ -61,6 +80,7 @@ export default function ContactPage() {
                 <div className="grid grid-cols-2 gap-4">
                   <Input
                     placeholder="Your Name"
+                    aria-label="Your name"
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                     className="bg-charcoal-900/50 border-stone-700/50 text-stone-100 placeholder:text-stone-400"
@@ -68,6 +88,7 @@ export default function ContactPage() {
                   />
                   <Input
                     placeholder="Email"
+                    aria-label="Email address"
                     type="email"
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
@@ -78,12 +99,14 @@ export default function ContactPage() {
                 <div className="grid grid-cols-2 gap-4">
                   <Input
                     placeholder="Phone"
+                    aria-label="Phone number"
                     value={formData.phone}
                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                     className="bg-charcoal-900/50 border-stone-700/50 text-stone-100 placeholder:text-stone-400"
                   />
                   <Input
                     placeholder="Event Date"
+                    aria-label="Event date"
                     type="date"
                     value={formData.eventDate}
                     onChange={(e) => setFormData({ ...formData, eventDate: e.target.value })}
@@ -93,12 +116,14 @@ export default function ContactPage() {
                 </div>
                 <Input
                   placeholder="Venue"
+                  aria-label="Venue"
                   value={formData.venue}
                   onChange={(e) => setFormData({ ...formData, venue: e.target.value })}
                   className="bg-charcoal-900/50 border-stone-700/50 text-stone-100 placeholder:text-stone-400"
                 />
                 <Textarea
                   placeholder="Tell us about your event and any special requests..."
+                  aria-label="Event details and special requests"
                   value={formData.message}
                   onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                   className="bg-charcoal-900/50 border-stone-700/50 text-stone-100 placeholder:text-stone-400"
@@ -106,10 +131,12 @@ export default function ContactPage() {
                 />
                 <Button
                   type="submit"
+                  disabled={isSubmitting}
                   className="w-full bg-gold-500 text-charcoal-950 hover:bg-gold-400"
                 >
-                  Send Inquiry
+                  {isSubmitting ? "Sending…" : "Send Inquiry"}
                 </Button>
+                {result && <p role="status" className={result.success ? "text-green-400" : "text-red-400"}>{result.message}</p>}
               </form>
             </CardContent>
           </Card>
